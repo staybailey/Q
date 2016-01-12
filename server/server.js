@@ -36,6 +36,8 @@ roomModel.remove({}, function() {
 
 
 io.on('connection', function (socket) {
+  console.log('New user came in with ID of: ' + socket.id);
+  console.log('New user started in rooms: ' + socket.rooms[0]);
 
   // This line needed only for Heroku, comment it out if serving locally
   // io.set("transports", ["polling"]); 

@@ -1,23 +1,24 @@
 var mongoose = require('mongoose');
-var User = require('./userModel');
+var Room = require('./roomModel');
 
 module.exports = {
-  addUser: function(req, res, next) {
-    var newUser = new User({
-      //to check with Harun and Spener
+  addRoom: function(req, res, next) {
+    var newRoom = new Room({
+      // host: req.body.host;
+      // roomname: req.body.roomname;
       queue: []
     });
-    newUser.save(function(err) {
-      if (err) console.log("error saving new user", err);
+    newRoom.save(function(err) {
+      if (err) console.log("error saving new room", err);
       else {
-        console.log('saved new user');
+        console.log('saved new room');
       }
       // res.end();
     });
   },
 
   getQueue: function(callback) {
-    User.findOne({}, function(err, result) {
+    Room.findOne({}, function(err, result) {
       callback(result.queue);
     });
   },
@@ -27,7 +28,7 @@ module.exports = {
       delete song['$$hashKey'];
       return song;
     });
-    User.findOne({}, function(err, result) {
+    Room.findOne({}, function(err, result) {
       console.log(updatedQueue)
       result.queue = updatedQueue;
       result.save(function(err) {
@@ -39,7 +40,7 @@ module.exports = {
 
   addSong: function(data, callback) {
     delete data['$$hashKey'];
-    User.findOne({}, function(err, result) {
+    Room.findOne({}, function(err, result) {
       var alreadyAdded = false;
       result.queue.forEach(function(song) {
         if (data.id === song.id) {
@@ -59,7 +60,7 @@ module.exports = {
   },
 
   deleteSong: function(target, callback) {
-    User.findOne({}, function(err, result) {
+    Room.findOne({}, function(err, result) {
 
       console.log(target);
       var deleteLocations = [];
