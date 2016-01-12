@@ -1,8 +1,8 @@
-var userController = require('./db/userController');
+var roomController = require('./db/roomController');
 var userSigninController = require('./db/userSigninController');
 
 module.exports = function (app, express) {
-  app.get('/testdb', userController.addUser);
+  app.get('/testdb', userController.addRoom);
 
   app.post('/newUser', userSigninController.addUser);
 };
