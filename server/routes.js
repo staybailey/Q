@@ -2,7 +2,7 @@ var roomController = require('./db/roomController');
 var userSigninController = require('./db/userSigninController');
 
 module.exports = function (app, express) {
-  app.post('/newUser', userSigninController.addUser);
+  // app.post('/newUser', userSigninController.addUser);
   app.get('/testdb', roomController.addRoom);
 };
 
