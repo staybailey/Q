@@ -15,6 +15,8 @@
     <!-- ionic/angularjs js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ionic/1.2.4/js/ionic.bundle.js"></script>
 
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+
     <!-- cordova script (this will be a 404 during development) -->
 
     <!-- your app's js -->
@@ -104,9 +106,13 @@
       console.log('Welcome!  Fetching your information.... ');
       FB.api('/me', function(response) {
         console.log('Successful login for: ', response);
-        document.getElementById('status').innerHTML =
-          'Thanks for logging in, ' + response.name + '!';
-        $.post('/newUser', response.id);
+        // document.getElementById('status').innerHTML =
+        //   'Thanks for logging in, ' + response.name + '!';
+        $.ajax({
+          method: 'POST',
+          data: response,
+          url: '/newUser'
+        });
       });
     }
   </script>
