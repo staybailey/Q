@@ -21,8 +21,9 @@
 <sound-manager></sound-manager>
 
 <!-- CONTENT -->
+<!-- include the fb share button here -->
 <!-- Playlist View: If you are the host -->
-<ion-content class="has-header has-footer has-subheader" ng-show="isHost()">
+<ion-content class="has-header has-footer has-subheader" ng-show="isHost()">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
     <div class="row card" ng-show="playlist.length === 0">
     <center>
@@ -48,9 +49,10 @@
 </ion-content>
 
 <!-- Playlist View: If you are a guest -->
-<ion-content class="has-header has-footer has-subheader" ng-show="!isHost()">
+<ion-content class="has-header has-footer has-subheader" ng-show="!isHost()">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
-    <div class="row card" ng-show="playlist.length === 0">
+    <div ng-bind-html="fbShare" ng-click='fbShareSend()'></div>
+    <div class="row card" ng-show="playlist.length === 0">    
     <center>
       <h3>There are no songs currently in your playlist.</h3>
       <h4>Use the search bar at the top to search for songs and add to the playlist.</h4>
