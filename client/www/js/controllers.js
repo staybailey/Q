@@ -3,12 +3,16 @@ angular.module('Q.controllers', [
 'Q',
 'ionic',
 'angularSoundManager',
+'ngSanitize'
 ])
 
-.controller('playlistController', function($scope, $rootScope, $location, Playlist) {
+.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) {
  $rootScope.songs= [];
  $rootScope.customPlaylist;
   window.socket.emit('newGuest');
+  // include template for fb share button
+ $scope.fbShare = $sce.trustAsHtml('<div><button class="btn btn-success">Share playlist with Facebook friends</button></div> ');
+ 
 
 $scope.searchSong = function (){
     $rootScope.songs= [];
@@ -53,6 +57,15 @@ $scope.searchSong = function (){
   $scope.clearResults = function (){
     $scope.query = '';
     $rootScope.songs = [];
+  }
+
+  $scope.fbShareSend = function() {
+    var currentUrl = window.location.href;
+    FB.ui({
+      method: 'send',
+      // once the app is live we can set it to go to window.location.href
+      link: 'http://google.com'    
+    });  
   }
   console.log(Playlist.isHost());
 })
