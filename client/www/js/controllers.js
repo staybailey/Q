@@ -9,8 +9,8 @@ angular.module('Q.controllers', [
 .controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) {
  $rootScope.songs= [];
  $rootScope.customPlaylist;
-      window.socket.emit('onJoin', queryStringValues['room']);
-  window.socket.emit('newGuest');
+ window.socket.emit('onJoin', queryStringValues['room']);
+  // window.socket.emit('newGuest');
   // include template for fb share button
  $scope.fbShare = $sce.trustAsHtml('<div><button class="btn btn-success">Share playlist with Facebook friends</button></div> ');
  
@@ -76,11 +76,12 @@ $scope.searchSong = function (){
 
   $scope.createRoom = function(){
     $scope.roomData.host = FB.getUserID();
-    console.log('sending POST request with data...', $scope.RoomData);
-    $http.post({
+    var data = $scope.roomData;
+    console.log('sending POST request with data...', $scope.roomData);
+    $http({
       method: 'POST',
       url: '/newRoom',
-      data: $scope.roomData
+      data: data
     })
     .then(function(success){
       console.log('new room created successfully!');

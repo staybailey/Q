@@ -1,13 +1,15 @@
 var mongoose = require('mongoose');
 
 var roomSchema = mongoose.Schema({
-  queue: [],
   hash: String,
-  guests: [],
+  room: String,
   host: String,
   eventName: String,
   startTime: Date,
-  endTime: Date
+  endTime: Date,
+  queue: [],
+  guests: []
+
 });
 
 var Room = mongoose.model('Room', roomSchema);

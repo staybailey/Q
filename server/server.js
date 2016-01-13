@@ -19,6 +19,7 @@ var port = process.env.PORT || 8000;
 server.listen(port);
 
 // This empties the database and seeds the database with one room with an empty queue (no multi-room functionality yet)
+/*
 roomModel.remove({}, function() {
   new roomModel({
     //to check with Harun and Spener
@@ -30,7 +31,7 @@ roomModel.remove({}, function() {
     }
   });
 });
-
+*/
 
 // io.configure(function () {  
 // });
@@ -47,7 +48,7 @@ io.on('connection', function (socket) {
 
   socket.on('onJoin', function (room) {
     socket.join(room);
-    console.log(socket.id + 'has joined room: ' + room + ' with: ' + io.sockets.adapter.rooms[room].sockets);
+    console.log(socket.id + 'has joined room: ' + room + ' with: ', io.sockets.adapter.rooms[room].sockets);
     console.log(socket.rooms);
   });
 
@@ -58,7 +59,9 @@ io.on('connection', function (socket) {
   });
 
   socket.on('addSong', function (newSong) {
-    Room.addSong(newSong, function() {
+    var room = socket.rooms[1];
+    console.log(room);
+    Room.addSong(newSong, room, function() {
       socket.emit('newSong', newSong);
       socket.broadcast.emit('newSong', newSong);
       // Room.getQueue(function(queue) {
@@ -67,7 +70,8 @@ io.on('connection', function (socket) {
   });
 
   socket.on('deleteSong', function (target) {
-    Room.deleteSong(target.song, function() {
+    var room = socket.rooms[1];
+    Room.deleteSong(target.song, room, function() {
       socket.emit('deleteSong', target);
       socket.broadcast.emit('deleteSong', target);
     });
