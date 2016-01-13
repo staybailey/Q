@@ -83,10 +83,10 @@ $scope.searchSong = function (){
       url: '/newRoom',
       data: data
     })
-    .then(function(success){
+    .then(function(resp){
       console.log('new room created successfully!');
-      console.log('redirecting to the newly created room');
-      $location.path(/*NEW URL*/);
+      console.log('redirecting to the newly created room' + resp.data);
+      $location.path('/playlists?room=' + resp.data);
     }, function(err){
       console.log('ERR! new room was not created');
     });
