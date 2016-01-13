@@ -1,29 +1,34 @@
 var mongoose = require('mongoose');
 var Room = require('./roomModel');
 
-var countId = 0
+var countId = 20;
 
 // DUMMY FUNCTION FOR TESTING. THIS SHOULD BE RANDOM
-var createIdentifier() {
-  return countid++;
+var createIdentifier = function () {
+  return String(countId++);
 }
 
 module.exports = {
   addRoom: function(req, res, next) {
+    console.log("ADDING ROOM")
+    var identifier = createIdentifier();
     var newRoom = new Room({
-      queue: [],
+      identifier: identifier, 
+      hash: 'hash',
       host: req.body.host,
       eventName: req.body.eventName,
       startTime: req.body.startTime,
       endTime: req.body.endTime,
-      guests: [],
-      identifier: createIdentifier(); // This MUST be unique
-      hash: 'hash' // dummy value as hash purpose unclear
+      queue: [],
+      guests: []
+       // dummy value as hash purpose unclear
     });
     newRoom.save(function(err) {
-      if (err) console.log("error saving new room", err);
-      else {
+      if (err) {
+        console.log("error saving new room", err);
+      } else {
         console.log('saved new room');
+        res.end(identifier);
       }
       // res.end();
     });
