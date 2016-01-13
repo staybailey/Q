@@ -29,7 +29,11 @@
 		<div class="list list-inset">
 			<form ng-submit="makeHost()">
 		  	<label class="item item-input">
-		    	<input type="password" placeholder="Sorry for this demo creating rooms is password protected" ng-model="createRoomPassword">
+		    	<ol>
+			    	<li>Event Name: <input type="string" ng-model="roomData.eventName"></li>
+			    	<li>Start Time: <input type="datetime-local" ng-model="roomData.startTime"></li>
+			    	<li>End Time: <input type="datetime-local" ng-model="roomData.endTime"></li>
+		    	</ol>
 		  	</label>
 		  </form>
 		</div>
