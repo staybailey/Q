@@ -27,12 +27,13 @@
 			<a ng-click="makeHost()" class="button button-block button-positive">Create Room</a>
 		</div>
 		<div class="list list-inset">
-			<form ng-submit="makeHost()">
+			<form ng-submit="createRoom()">
 		  	<label class="item item-input">
 		    	<ol>
 			    	<li>Event Name: <input type="string" ng-model="roomData.eventName"></li>
 			    	<li>Start Time: <input type="datetime-local" ng-model="roomData.startTime"></li>
 			    	<li>End Time: <input type="datetime-local" ng-model="roomData.endTime"></li>
+			    	<button type="submit">Done</button>
 		    	</ol>
 		  	</label>
 		  </form>
