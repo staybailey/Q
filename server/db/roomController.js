@@ -1,34 +1,36 @@
 var mongoose = require('mongoose');
 var Room = require('./roomModel');
 
-var countId = 20;
+var countId = 70;
 
 // DUMMY FUNCTION FOR TESTING. THIS SHOULD BE RANDOM
-var createIdentifier = function () {
+var createRoom = function () {
   return String(countId++);
 }
 
 module.exports = {
   addRoom: function(req, res, next) {
     console.log("ADDING ROOM")
-    var identifier = createIdentifier();
+    var room = createRoom();
+    console.log(room);
     var newRoom = new Room({
-      identifier: identifier, 
-      hash: 'hash',
+      hash: 'hash',  
+      room: room, 
+      // dummy value as hash purpose unclear
       host: req.body.host,
       eventName: req.body.eventName,
       startTime: req.body.startTime,
       endTime: req.body.endTime,
       queue: [],
       guests: []
-       // dummy value as hash purpose unclear
+
     });
     newRoom.save(function(err) {
       if (err) {
         console.log("error saving new room", err);
       } else {
         console.log('saved new room');
-        res.end(identifier);
+        res.end(room);
       }
       // res.end();
     });
@@ -64,7 +66,7 @@ module.exports = {
 
   addSong: function(data, room, callback) {
     delete data['$$hashKey'];
-    Room.findOne({identifier: room}, function(err, result) {
+    Room.findOne({room: room}, function(err, result) {
       var alreadyAdded = false;
       result.queue.forEach(function(song) {
         if (data.id === song.id) {
@@ -84,7 +86,7 @@ module.exports = {
   },
 
   deleteSong: function(target, room, callback) {
-    Room.findOne({identifier: room}, function(err, result) {
+    Room.findOne({room: room}, function(err, result) {
       console.log(target);
       var deleteLocations = [];
       result.queue.forEach(function(song, index) {

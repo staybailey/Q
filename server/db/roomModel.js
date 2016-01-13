@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var roomSchema = mongoose.Schema({
-  indentifier: {type: String, unique: true},
   hash: String,
+  room: String,
   host: String,
   eventName: String,
   startTime: Date,
