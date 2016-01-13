@@ -70,8 +70,23 @@ $scope.searchSong = function (){
   console.log(Playlist.isHost());
 })
 
-.controller('landingPageController', function($scope, $location, $state, Playlist){
+.controller('landingPageController', function($scope, $http, $location, $state, Playlist){
   $scope.roomData = {};
+
+  $scope.createRoom = function(){
+    $http.post({
+      method: 'POST',
+      url: '/newRoom'
+    })
+    .then(function(success){
+      console.log('new room created successfully!');
+      console.log('redirecting to the newly created room');
+      $location.path(/*NEW URL*/);
+    }, function(err){
+      console.log('ERR! new room was not created');
+    });
+  }
+
   $scope.makeHost = function(){
 
     // Note: this is a temporary fix for the demo, and should not be used as actual authentication
