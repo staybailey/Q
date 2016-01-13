@@ -74,9 +74,12 @@ $scope.searchSong = function (){
   $scope.roomData = {};
 
   $scope.createRoom = function(){
+    $scope.roomData.host = FB.getUserID();
+    console.log('sending POST request with data...', $scope.RoomData);
     $http.post({
       method: 'POST',
-      url: '/newRoom'
+      url: '/newRoom',
+      data: $scope.roomData
     })
     .then(function(success){
       console.log('new room created successfully!');
