@@ -47,9 +47,9 @@ io.on('connection', function (socket) {
   //   socket.emit('getQueue', queue);
   // });
 
-  socket.on('onJoin', function (req, res, next) {
-    socket.join(req.params.id);
-    console.log(io.sockets.adapter.rooms[req.params.id]);
+  socket.on('onJoin', function (room) {
+    socket.join(room);
+    console.log('Joined room with: ' + io.sockets.adapter.rooms[room]);
   });
 
   socket.on('newGuest', function() {
