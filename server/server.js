@@ -37,9 +37,7 @@ roomModel.remove({}, function() {
 
 
 io.on('connection', function (socket) {
-  console.log('New user came in with ID of: ' + socket.id);
-  console.log('New user started in rooms: ' + socket.rooms);
-  console.log(io.sockets.adapter.rooms);
+  console.log('New user logged on with ID of: ' + socket.id);
   // This line needed only for Heroku, comment it out if serving locally
   // io.set("transports", ["polling"]); 
 
@@ -49,7 +47,8 @@ io.on('connection', function (socket) {
 
   socket.on('onJoin', function (room) {
     socket.join(room);
-    console.log('Joined room with: ' + io.sockets.adapter.rooms[room]);
+    console.log(socket.id + 'has joined room: ' + room + ' with: ' + io.sockets.adapter.rooms[room].sockets);
+    console.log(socket.rooms);
   });
 
   socket.on('newGuest', function() {
