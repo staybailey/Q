@@ -5,8 +5,8 @@ var io = require('socket.io')(server);
 var bodyParser = require('body-parser');
 var SC = require('node-soundcloud');
 var db = require('./db/dbConfig');
-var User = require('./db/userController');
-var userModel = require('./db/userModel');
+var Room = require('./db/roomController');
+var roomModel = require('./db/roomModel');
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -17,9 +17,9 @@ require('./routes.js')(app, express);
 var port = process.env.PORT || 8000;
 server.listen(port);
 
-// This empties the database and seeds the database with one user with an empty queue (no multi-user functionality yet)
-userModel.remove({}, function() {
-  new userModel({
+// This empties the database and seeds the database with one room with an empty queue (no multi-room functionality yet)
+roomModel.remove({}, function() {
+  new roomModel({
     //to check with Harun and Spener
     queue: []
   }).save(function(err) {
@@ -36,31 +36,33 @@ userModel.remove({}, function() {
 
 
 io.on('connection', function (socket) {
+  console.log('New user came in with ID of: ' + socket.id);
+  console.log('New user started in rooms: ' + socket.rooms[0]);
 
   // This line needed only for Heroku, comment it out if serving locally
   // io.set("transports", ["polling"]); 
 
-  // User.getQueue(function(queue) {
+  // Room.getQueue(function(queue) {
   //   socket.emit('getQueue', queue);
   // });
 
   socket.on('newGuest', function() {
-    User.getQueue(function(queue) {
+    Room.getQueue(function(queue) {
       socket.emit('getQueue', queue);
     });
   });
 
   socket.on('addSong', function (newSong) {
-    User.addSong(newSong, function() {
+    Room.addSong(newSong, function() {
       socket.emit('newSong', newSong);
       socket.broadcast.emit('newSong', newSong);
-      // User.getQueue(function(queue) {
+      // Room.getQueue(function(queue) {
       // });
     });
   });
 
   socket.on('deleteSong', function (target) {
-    User.deleteSong(target.song, function() {
+    Room.deleteSong(target.song, function() {
       socket.emit('deleteSong', target);
       socket.broadcast.emit('deleteSong', target);
     });
