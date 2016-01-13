@@ -8,12 +8,12 @@ var db = require('./db/dbConfig');
 var User = require('./db/userController');
 var userModel = require('./db/userModel');
 
-require('./routes.js')(app, express);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/www'));
 
+require('./routes.js')(app, express);
 var port = process.env.PORT || 8000;
 server.listen(port);
 
@@ -36,7 +36,6 @@ userModel.remove({}, function() {
 
 
 io.on('connection', function (socket) {
-  console.log(socket);
 
   // This line needed only for Heroku, comment it out if serving locally
   // io.set("transports", ["polling"]); 
