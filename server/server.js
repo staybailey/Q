@@ -58,7 +58,9 @@ io.on('connection', function (socket) {
   });
 
   socket.on('addSong', function (newSong) {
-    Room.addSong(newSong, function() {
+    var room = socket.rooms[1];
+    console.log(room);
+    Room.addSong(newSong, room, function() {
       socket.emit('newSong', newSong);
       socket.broadcast.emit('newSong', newSong);
       // Room.getQueue(function(queue) {
@@ -67,7 +69,8 @@ io.on('connection', function (socket) {
   });
 
   socket.on('deleteSong', function (target) {
-    Room.deleteSong(target.song, function() {
+    var room = socket.rooms[1];
+    Room.deleteSong(target.song, room, function() {
       socket.emit('deleteSong', target);
       socket.broadcast.emit('deleteSong', target);
     });

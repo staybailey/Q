@@ -1,6 +1,13 @@
 var mongoose = require('mongoose');
 var Room = require('./roomModel');
 
+var countId = 0
+
+// DUMMY FUNCTION FOR TESTING. THIS SHOULD BE RANDOM
+var createIdentifier() {
+  return countid++;
+}
+
 module.exports = {
   addRoom: function(req, res, next) {
     var newRoom = new Room({
@@ -10,6 +17,7 @@ module.exports = {
       startTime: req.body.startTime,
       endTime: req.body.endTime,
       guests: [],
+      identifier: createIdentifier(); // This MUST be unique
       hash: 'hash' // dummy value as hash purpose unclear
     });
     newRoom.save(function(err) {
@@ -20,14 +28,20 @@ module.exports = {
       // res.end();
     });
   },
+ 
 
-  getQueue: function(callback) {
-    Room.findOne({}, function(err, result) {
+  /*
+
+  NOT USED SEEMINGLY 
+
+  getQueue: function(room, callback) {
+    Room.findOne({identifier: room}, function(err, result) {
       callback(result.queue);
     });
   },
-
-  saveQueue: function(updatedQueue, callback) {
+  
+  
+  saveQueue: function(updatedQueue, room, callback) {
     updatedQueue = updatedQueue.map(function(song) {
       delete song['$$hashKey'];
       return song;
@@ -41,10 +55,11 @@ module.exports = {
       });
     });
   },
+  */
 
-  addSong: function(data, callback) {
+  addSong: function(data, room, callback) {
     delete data['$$hashKey'];
-    Room.findOne({}, function(err, result) {
+    Room.findOne({identifier: room}, function(err, result) {
       var alreadyAdded = false;
       result.queue.forEach(function(song) {
         if (data.id === song.id) {
@@ -63,9 +78,8 @@ module.exports = {
     });
   },
 
-  deleteSong: function(target, callback) {
-    Room.findOne({}, function(err, result) {
-
+  deleteSong: function(target, room, callback) {
+    Room.findOne({identifier: room}, function(err, result) {
       console.log(target);
       var deleteLocations = [];
       result.queue.forEach(function(song, index) {
@@ -83,5 +97,4 @@ module.exports = {
       });
     });
   }
-
 };
