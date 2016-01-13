@@ -49,7 +49,7 @@ io.on('connection', function (socket) {
   socket.on('onJoin', function (room) {
     socket.join(room);
     console.log(socket.id + 'has joined room: ' + room + ' with: ', io.sockets.adapter.rooms[room].sockets);
-    console.log(socket.rooms);
+    console.log("THE SOCKET ROOMS ARRAY IS\n", socket.rooms);
   });
 
   socket.on('newGuest', function() {
@@ -59,13 +59,22 @@ io.on('connection', function (socket) {
   });
 
   socket.on('addSong', function (newSong) {
-    var room = socket.rooms[1];
+    console.log("SOCKET ROOMS", socket.rooms);
+    console.log("SOCKET ROOMS TYPEOF =", typeof socket.rooms);
+    var room:
+    for (var key in socket.rooms) {
+      if (socket.rooms[key].substr(0, 4) === 'jhbb') { // THIS MUST MATCH room generator
+        room = socket.rooms[key];
+      }
+    }
     console.log(room);
-    Room.addSong(newSong, room, function() {
-      socket.emit('newSong', newSong);
-      socket.broadcast.emit('newSong', newSong);
-      // Room.getQueue(function(queue) {
-      // });
+    if (room) {
+      Room.addSong(newSong, room, function() {
+        socket.emit('newSong', newSong);
+        socket.broadcast.emit('newSong', newSong);
+        // Room.getQueue(function(queue) {
+        // });
+      }
     });
   });
 
