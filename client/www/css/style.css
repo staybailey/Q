@@ -115,6 +115,11 @@ img.small {
     -webkit-animation: up 2s forwards, across 35s 5000ms linear infinite;
 }
 
+.list-inset li {
+  list-style-type: none;
+  margin-bottom: 20px;
+}
+
 @font-face {
   font-family: Langdon;
   src: url(../img/Langdon.otf);
