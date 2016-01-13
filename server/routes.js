@@ -3,7 +3,8 @@ var userSigninController = require('./db/userSigninController');
 
 module.exports = function (app, express) {
   app.post('/newUser', userSigninController.addUser);
-  app.get('/testdb', roomController.addRoom);
+  app.post('/newRoom', roomController.addRoom);
+  app.get('/testdb', roomController.addRoom); // remove later
 };
 
 

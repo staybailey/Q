@@ -4,9 +4,13 @@ var Room = require('./roomModel');
 module.exports = {
   addRoom: function(req, res, next) {
     var newRoom = new Room({
-      // host: req.body.host;
-      // roomname: req.body.roomname;
-      queue: []
+      queue: [],
+      host: req.body.host,
+      eventName: req.body.eventName,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+      guests: [],
+      hash: 'hash' // dummy value as hash purpose unclear
     });
     newRoom.save(function(err) {
       if (err) console.log("error saving new room", err);
