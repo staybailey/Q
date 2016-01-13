@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/www'));
 
 require('./routes.js')(app, express);
+
 var port = process.env.PORT || 8000;
 server.listen(port);
 
