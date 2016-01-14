@@ -1,11 +1,17 @@
 var mongoose = require('mongoose');
 var Room = require('./roomModel');
 
-var countId = 70;
+var randomString = function (number) {
+  var output = '';
+  for (var i = 0; i < number; i++) {
+    output += String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+  }
+  return output;
+}
 
-// DUMMY FUNCTION FOR TESTING. THIS SHOULD BE RANDOM
+// There could be occassional roomname overlap but it one in 26^12
 var createRoom = function () {
-  return String(countId++);
+  return 'jhbb' + randomString(12);
 }
 
 module.exports = {
@@ -16,7 +22,6 @@ module.exports = {
     var newRoom = new Room({
       hash: 'hash',  
       room: room, 
-      // dummy value as hash purpose unclear
       host: req.body.host,
       eventName: req.body.eventName,
       startTime: req.body.startTime,
@@ -37,17 +42,14 @@ module.exports = {
   },
  
 
-  /*
-
-  NOT USED SEEMINGLY 
 
   getQueue: function(room, callback) {
-    Room.findOne({identifier: room}, function(err, result) {
+    Room.findOne({room: room}, function(err, result) {
       callback(result.queue);
     });
   },
   
-  
+  /*
   saveQueue: function(updatedQueue, room, callback) {
     updatedQueue = updatedQueue.map(function(song) {
       delete song['$$hashKey'];
@@ -65,8 +67,10 @@ module.exports = {
   */
 
   addSong: function(data, room, callback) {
+    console.log("ADDING A SONG TO ROOM", room);
     delete data['$$hashKey'];
     Room.findOne({room: room}, function(err, result) {
+      console.log("FOUND ROOM ENTRY", result);
       var alreadyAdded = false;
       result.queue.forEach(function(song) {
         if (data.id === song.id) {
