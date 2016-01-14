@@ -65,14 +65,12 @@ angular.module('Q.services', [
     return isHostData;
   }
   var isSpotify = function(){
-    // change to be dynamic when we take this input  
-    // CHANGE THIS LATER
-    return true;  
+    // change to be dynamic when we take this input      
     return isSpotifyLanding;   
   }
   var isSpotifyFirst = function(input){
-    // change to checkbox later    
-    if (input === 'y') {
+    // change to checkbox later        
+    if (input) {
       isSpotifyLanding = true
     } else {
       isSpotifyLanding = false

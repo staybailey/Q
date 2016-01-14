@@ -14,7 +14,7 @@ angular.module('Q.controllers', [
   // include template for fb share button
  $scope.fbShare = $sce.trustAsHtml('<button class="btn btn-success">Share playlist with Facebook friends</button> ');
  $scope.SpotifyPlaylistMarkup = $sce.trustAsHtml('<button class="btn btn-danger spotify-login">Make Spotify Playlist</button> ');
-
+ 
  $scope.spotifyResponse = [];
 
   $scope.searchSong = function (isSpotify){
@@ -152,11 +152,10 @@ angular.module('Q.controllers', [
 })
 
 .controller('landingPageController', function($scope, $http, $location, $state, Playlist){
-  $scope.roomData = {};
-
+  $scope.roomData = {};   
 
   $scope.createRoom = function(){
-    // check if it's a spotify room    
+    // check if it's a spotify room        
     Playlist.isSpotifyFirst($scope.roomData.spotify);
 
     $scope.roomData.host = FB.getUserID();
