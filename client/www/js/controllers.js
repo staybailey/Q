@@ -8,6 +8,7 @@ angular.module('Q.controllers', [
 
 .controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) {
  $rootScope.songs= [];
+ $rootScope.votes= [];
  $rootScope.customPlaylist;
  window.socket.emit('onJoin', queryStringValues['room']);
   // window.socket.emit('newGuest');
@@ -30,7 +31,6 @@ $scope.searchSong = function (){
                             artist: tracks[i].user.permalink,
                             url: tracks[i].stream_url + "?client_id=f270bdc572dc8380259d38d8015bdbe7",
                             waveform: tracks[i].waveform_url,
-                            vote: 4
                         };
           if(tracks[i].artwork_url === null){
               track.image = '../img/notavailable.png';
@@ -39,6 +39,7 @@ $scope.searchSong = function (){
           }
           $rootScope.$apply(function(){
             $rootScope.songs.push(track);
+            $rootScope.votes.push(0);
           })
         }
       })
@@ -47,12 +48,14 @@ $scope.searchSong = function (){
 
   }
 
-  $scope.upVote = function(song){
-    song.vote++;
+  $scope.upVote = function(index){
+    $rootScope.votes[index]++;
+    window.socket.emit('upVote');
   }
 
-  $scope.downVote = function(song){
-    song.vote--;
+  $scope.downVote = function(index){
+    $rootScope.votes[index]--;
+    window.socket.emit('downVote');
   }
 
   $scope.clearResults = function (){
