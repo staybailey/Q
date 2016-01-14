@@ -50,10 +50,12 @@ io.on('connection', function (socket) {
     socket.join(room);
     console.log(socket.id + 'has joined room: ' + room + ' with: ', io.sockets.adapter.rooms[room].sockets);
     console.log("THE SOCKET ROOMS ARRAY IS\n", socket.rooms);
+    /*
     Room.getQueue(room, function (queue) {
       console.log(queue);
       socket.to(room).emit('getQueue', queue);
     });
+    */
   });
 
   socket.on('addSong', function (newSong) {
