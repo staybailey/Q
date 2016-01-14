@@ -51,17 +51,11 @@ io.on('connection', function (socket) {
     console.log(socket.id + 'has joined room: ' + room + ' with: ', io.sockets.adapter.rooms[room].sockets);
     console.log("THE SOCKET ROOMS ARRAY IS\n", socket.rooms);
     Room.getQueue(room, function (queue) {
-      socket.emit('getQueue', queue);
-    })
-  });
-
-  /*
-  socket.on('newGuest', function() {
-    Room.getQueue(function(queue) {
-      socket.emit('getQueue', queue);
+      console.log(queue);
+      socket.to(room).emit('getQueue', queue);
     });
   });
-  */
+
   socket.on('addSong', function (newSong) {
     console.log("SOCKET ROOMS", socket.rooms);
     console.log("SOCKET ROOMS TYPEOF =", typeof socket.rooms);
@@ -76,18 +70,23 @@ io.on('connection', function (socket) {
       Room.addSong(newSong, room, function() {
         socket.emit('newSong', newSong);
         socket.to(room).broadcast.emit('newSong', newSong);
-        // Room.getQueue(function(queue) {
-        // });
       });
     }
   });
 
   socket.on('deleteSong', function (target) {
-    var room = socket.rooms[1];
-    Room.deleteSong(target.song, room, function() {
-      socket.emit('deleteSong', target);
-      socket.broadcast.emit('deleteSong', target);
-    });
+    var room;
+    for (var key in socket.rooms) {
+      if (socket.rooms[key].substr(0, 4) === 'jhbb') { // THIS MUST MATCH room generator
+        room = socket.rooms[key];
+      }
+    }
+    if (room) {
+      Room.deleteSong(target.song, room, function() {
+        socket.emit('deleteSong', target);
+        socket.to(room).broadcast.emit('deleteSong', target);
+      });
+    }
   });
 
   socket.on('progress', function (data) {
