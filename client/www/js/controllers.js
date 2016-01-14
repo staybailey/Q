@@ -44,7 +44,7 @@ $scope.searchSong = function (){
                             title: tracks[i].title,
                             artist: tracks[i].user.permalink,
                             url: tracks[i].stream_url + "?client_id=f270bdc572dc8380259d38d8015bdbe7",
-                            waveform: tracks[i].waveform_url,
+                            waveform: tracks[i].waveform_url
                         };
           if(tracks[i].artwork_url === null){
               track.image = '../img/notavailable.png';
@@ -101,7 +101,12 @@ $scope.searchSong = function (){
 =======
           $rootScope.$apply(function(){
             $rootScope.songs.push(track);
-            $rootScope.votes.push(0);
+            //limit the length to 100
+            // if($rootScope.votes.length < 100){
+            //   $rootScope.votes.push(0);
+            // }
+            // console.log($rootScope.songs);
+            // console.log($rootScope.votes);
           })
         }
       })
@@ -114,12 +119,12 @@ $scope.searchSong = function (){
 
   $scope.upVote = function(index){
     $rootScope.votes[index]++;
-    window.socket.emit('upVote');
+    window.socket.emit('voteChange');
   }
 
   $scope.downVote = function(index){
     $rootScope.votes[index]--;
-    window.socket.emit('downVote');
+    window.socket.emit('voteChange');
   }
 
   $scope.clearResults = function (){
