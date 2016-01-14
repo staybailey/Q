@@ -32,10 +32,8 @@ angular.module('Q.services', [
       return tracks;
     });
   }
-  var searchSpotifyTracks = function (query) {  
-    console.log('on other', query);  
-    if (query === '') { 
-      console.log('hihiihi');     
+  var searchSpotifyTracks = function (query) {      
+    if (query === '') {       
       return 'empty'
     }
     return $http ({

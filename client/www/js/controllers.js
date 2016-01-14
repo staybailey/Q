@@ -25,10 +25,8 @@ $scope.searchSong = function (isSpotify){
         $('.spotifyResults').show()
       }
       Playlist.searchSpotifyTracks($scope.query)
-        .then(function(resp) {      
-          console.log('resp!!!', resp);    
-          if (resp === 'empty') {
-            console.log('nono');
+        .then(function(resp) {                  
+          if (resp === 'empty') {            
             $scope.spotifyResponse[0] = {};
             $scope.spotifyResponse[0].title = "please enter a search";
             $scope.spotifyResponse[0].artist = "YOU";
