@@ -99,7 +99,8 @@
 
 <!-- SUBHEADER -->
 <!-- Search Bar -->
-<div ng-show="isSpotify()" class="bar bar-subheader item-input-inset">
+<span ng-show='isSpotify()'>
+<div class="bar bar-subheader item-input-inset">
   <label class="item-input-wrapper">
     <i class="icon ion-ios-search placeholder-icon"></i>
     <input type="search" placeholder="Spotify search..." ng-model="query" ng-change='searchSong(true)'>
@@ -172,16 +173,17 @@
 
 <!-- FOOTER  -->
 <div class="bar bar-footer row row-center bar-stable">
+
   <!-- Player Control Buttons: Only for host -->
-  <div class="col-20" style="margin-left: auto; margin-right: auto; float:left; min-width:160px" ng-show="isHost()">
+  <!-- <div class="col-20" style="margin-left: auto; margin-right: auto; float:left; min-width:160px" ng-show="isHost()">
     <button play-music class="ion-play button button-outline button-royal circle bottomButton"></button>
     <button pause-music class="ion-pause button button-outline button-royal bottomButton"></button>
     <button prev-track class="ion-skip-backward button button-outline button-royal bottomButton"></button>
     <button next-track class="ion-skip-forward button button-outline button-royal bottomButton"></button>
-  </div>
+  </div> -->
 
   <!-- Now Playing: Seen by host and guest -->
-  <div ng-class="isHost() ? 'nowplayingHost center' : 'nowplaying center'">
+  <!-- <div ng-class="isHost() ? 'nowplayingHost center' : 'nowplaying center'">
     <span ng-show='currentPlaying.title' class='marquee center small'>
       <p>
         <img height="28" width="28" style="float: left; margin-right:5px" class="rounded" src={{currentPlaying.image}}> 
@@ -189,5 +191,9 @@
         </span>
       </p>
     </span>
-  </div>
+  </div> -->
 </div>
+<div class="spotify-embed spotify-embed-main" ng-mouseenter="spotifyExpand('enter')" ng-mouseleave="spotifyExpand('leave')">
+    <iframe src="https://embed.spotify.com/?uri=https://embed.spotify.com/user/hlyford11/playlist/1HqZmMA5762aaCz8zhe4Ff&theme=black" width="500" height="600" frameborder="0" allowtransparency="true"></iframe>
+</div>
+</span>

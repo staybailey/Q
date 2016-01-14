@@ -28,9 +28,10 @@
 		</div>
 		<div class="list list-inset">
 			<form ng-submit="createRoom()">
-		  	<label class="item item-input">
-		    	<ol>
+		  	<label class="item item-input create-center">
+		    	<ol class='create-center'>
 			    	<li>Event Name: <input type="string" ng-model="roomData.eventName"></li>
+			    	<li>Spotify playlist?: <input type="string" ng-model="roomData.spotify"></li>
 			    	<li>Start Time: <input type="datetime-local" ng-model="roomData.startTime"></li>
 			    	<li>End Time: <input type="datetime-local" ng-model="roomData.endTime"></li>
 			    	<button type="submit">Done</button>

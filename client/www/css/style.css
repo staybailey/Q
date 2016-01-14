@@ -164,3 +164,44 @@ img.small {
   margin-left: 10px;
   margin-right: 10px;
 }
+.create-center {
+  margin: 0 auto 0 auto;
+}
+/*spotify embed stuff below*/
+.spotify-embed {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    top: 83%;
+    left: 30%;     
+}
+.spotify-embed-active {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    top: 40%;
+    left: 30%;     
+}
+.spotify-embed-main {
+
+}
+/*div.slideOutTab {
+    position: fixed;
+    width: 150px;
+    height: 400px;
+    top: 200px;
+    left: -107px;
+}
+
+div.slideOutTab a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-indent: -999em;
+    background: 0 0 url('http://s9.postimg.org/okyi00edn/fb_like_us.gif') no-repeat;
+}
+
+div.slideOutTab a:hover {
+    background-position: 0 -43px;
+}*/
