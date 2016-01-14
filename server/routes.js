@@ -18,6 +18,7 @@ module.exports = function (app, express) {
     //   }
     // }) 
   })
+  app.post('/sendInvite', twilio.sendInvite);
 };
 
 
@@ -25,7 +26,7 @@ module.exports = function (app, express) {
 //   app.get('/queue', queue.getAllSongs);
 //   app.post('/queue', queue.addSong, function() {
 //     queue.getQueue(function(queue) {
-//       socket.broadcast.emit('queue song', queue);
+//       socket.broadcast.emit('queue song', queue);`
       
 //     })
 //   });

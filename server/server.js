@@ -7,16 +7,24 @@ var SC = require('node-soundcloud');
 var db = require('./db/dbConfig');
 var Room = require('./db/roomController');
 var roomModel = require('./db/roomModel');
-
+var twilio = require('./twilio');
+var session = require('express-session');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/www'));
+app.use(session({
+  secret: twilio.config.secret,
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(twilio.sendInvite);
 
 require('./routes.js')(app, express);
 
 var port = process.env.PORT || 8000;
 server.listen(port);
+console.log('Server listening to port: ' + port);
 
 // This empties the database and seeds the database with one room with an empty queue (no multi-room functionality yet)
 /*
@@ -27,7 +35,7 @@ roomModel.remove({}, function() {
   }).save(function(err) {
     if (err) console.error("error seeding database", err);
     else {
-      console.log('saved new user');
+      console.log('Created new room');
     }
   });
 });
