@@ -32,8 +32,8 @@ angular.module('Q.services', [
       return tracks;
     });
   }
-  var searchSpotifyTracks = function (query) {    
-    if (query === '') {      
+  var searchSpotifyTracks = function (query) {      
+    if (query === '') {       
       return 'empty'
     }
     return $http ({
@@ -46,13 +46,22 @@ angular.module('Q.services', [
   // the current user is the host
   
   var isHostData = false;
+  var isSpotifyLanding;
 
   var isHost = function(){
     return isHostData;
   }
   var isSpotify = function(){
-    // change to be dynamic when we take this input
-    return false;
+    // change to be dynamic when we take this input    
+    return isSpotifyLanding;   
+  }
+  var isSpotifyFirst = function(input){
+    // change to checkbox later
+    if (input === 'y') {
+      isSpotifyLanding = true
+    } else {
+      isSpotifyLanding = false
+    }    
   }
 
   var makeHost = function () {
@@ -71,6 +80,7 @@ angular.module('Q.services', [
     makeGuest: makeGuest,
     isHost: isHost,
     isSpotify: isSpotify,
+    isSpotifyFirst: isSpotifyFirst,
     searchSpotifyTracks: searchSpotifyTracks
   }
 })

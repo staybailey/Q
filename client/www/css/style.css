@@ -164,3 +164,25 @@ img.small {
   margin-left: 10px;
   margin-right: 10px;
 }
+.create-center {
+  margin: 0 auto 0 auto;
+}
+/*spotify embed stuff below*/
+.spotify-embed {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    top: 83%;
+    left: 30%;     
+}
+.spotify-embed-active {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    top: 40%;
+    left: 30%;     
+}
+.spotify-embed-main {
+
+}
+

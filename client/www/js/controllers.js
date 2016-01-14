@@ -6,8 +6,9 @@ angular.module('Q.controllers', [
 'ngSanitize'
 ])
 
-.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) {
- $rootScope.songs= [];
+.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) { 
+
+ $rootScope.songs = [];
  $rootScope.customPlaylist;
  window.socket.emit('onJoin', queryStringValues['room']);
   // window.socket.emit('newGuest');
@@ -18,11 +19,14 @@ angular.module('Q.controllers', [
 $scope.searchSong = function (isSpotify){
     if (isSpotify) {
       // call the spotify api 
+      if ($scope.query === '') {
+        $('.spotifyResults').hide()
+      } else {
+        $('.spotifyResults').show()
+      }
       Playlist.searchSpotifyTracks($scope.query)
-        .then(function(resp) {      
-          //console.log(resp);    
-          if (resp === 'empty') {
-            console.log('nono');
+        .then(function(resp) {                  
+          if (resp === 'empty') {            
             $scope.spotifyResponse[0] = {};
             $scope.spotifyResponse[0].title = "please enter a search";
             $scope.spotifyResponse[0].artist = "YOU";
@@ -37,9 +41,9 @@ $scope.searchSong = function (isSpotify){
               $scope.spotifyResponse[i]['play_url'] = spotifyResponseSongs[i].external_urls.spotify;
               $scope.spotifyResponse[i]['popularity'] = spotifyResponseSongs[i].popularity;
               $scope.spotifyResponse[i]['duration'] = spotifyResponseSongs[i].duration_ms;
+              $scope.spotifyResponse[i]['uri'] = spotifyResponseSongs[i].uri;
 
-            }     
-            console.log($scope.spotifyResponse);
+            }                 
           }
         })      
 
@@ -84,8 +88,7 @@ $scope.searchSong = function (isSpotify){
     $scope.query = '';
     $rootScope.songs = [];
   }
-  $scope.clearSpotify = function() {
-    console.log('clearing');
+  $scope.clearSpotify = function() {    
     $scope.query = '';
     $('.spotifyResults').hide();
   }
@@ -111,13 +114,26 @@ $scope.searchSong = function (isSpotify){
       link: 'http://google.com'    
     });  
   }
-  console.log(Playlist.isHost());
+  $scope.spotifyExpand = function(status) {
+    console.log('here this', $('this'));    
+    // console.log('here actual', $('spotify-embed'));  
+    if (status === 'enter') {    
+      $('.spotify-embed-main').addClass('spotify-embed-active', 2000).removeClass('spotify-embed', 2000);
+    } else {
+      $('.spotify-embed-main').addClass('spotify-embed', 500).removeClass('spotify-embed-active');
+    }
+  }
+  // console.log(Playlist.isHost());
 })
 
 .controller('landingPageController', function($scope, $http, $location, $state, Playlist){
   $scope.roomData = {};
 
+
   $scope.createRoom = function(){
+    // check if it's a spotify room    
+    Playlist.isSpotifyFirst($scope.roomData.spotify);
+
     $scope.roomData.host = FB.getUserID();
     var data = $scope.roomData;
     console.log('sending POST request with data...', $scope.roomData);
