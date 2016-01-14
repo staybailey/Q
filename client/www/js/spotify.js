@@ -1,5 +1,4 @@
-$(function() {
-    console.log('here', $('.spotify-embed'));    
+$(function() {    
     // This is a shortcut to bind both mouseOver and mouseOut
     $('.spotify-embed').hover(function() {
         console.log('hihi');
@@ -18,5 +17,10 @@ $(function() {
             }, 400);
     });
     
-    
+    $('.spotify-login').on('click', function() {
+        console.log('hihi');
+    })
+    $('.spotifyPlaylistItem').click(function() {
+        console.log('hihi', $(this));
+    })
 });

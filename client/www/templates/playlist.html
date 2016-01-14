@@ -1,5 +1,7 @@
 <!-- SUBHEADER -->
+<!-- <div class="spotifyContainer" style="position: fixed; left: 85%; top: 40%; width: 300; height: 380"></div> -->
 <!-- Search Bar -->
+<span ng-show="!isSpotify()">
 <div ng-show="!isSpotify()" class="bar bar-subheader item-input-inset">
   <label class="item-input-wrapper">
     <i class="icon ion-ios-search placeholder-icon"></i>
@@ -50,7 +52,7 @@
 <!-- Playlist View: If you are a guest -->
 <ion-content class="has-header has-footer has-subheader" ng-show="!isHost()">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
-    <div ng-bind-html="fbShare" ng-click='fbShareSend()'></div>
+    <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
     <div class="row card" ng-show="playlist.length === 0">    
     <center>
       <h3>There are no songs currently in your playlist.</h3>
@@ -60,7 +62,7 @@
     <ul>
       <div class='row' ng-repeat="song in playlist">
         <div class="col-90">
-          <div ng-class="currentPlaying.id === song.id ? 'button button-positive button-block playlistItem' : 'button button-outline button-stable button-block playlistItem'">
+          <div ng-class="currentPlaying.id === song.id ? 'button button-positive button-block playlistItem spotifyPlaylistItem' : 'button button-outline button-stable button-block playlistItem spotifyPlaylistItem'">
             {{ song.title }} by {{song.artist}}
             <img src="../img/plus.gif" class="plus-button"/>
             <div class="vote-count">0</div>
@@ -96,13 +98,14 @@
     </span>
   </div>
 </div>
+</span>
 
 <!-- ***** show this template if it's a spotify list ***** -->
 
 <!-- SUBHEADER -->
 <!-- Search Bar -->
 <span ng-show='isSpotify()'>
-<div class="bar bar-subheader item-input-inset">
+<div class="bar bar-subheader item-input-inset spotify-bar" >
   <label class="item-input-wrapper">
     <i class="icon ion-ios-search placeholder-icon"></i>
     <input type="search" placeholder="Spotify search..." ng-model="query" ng-change='searchSong(true)'>
@@ -123,7 +126,6 @@
 <sound-manager></sound-manager>
 
 <!-- CONTENT -->
-<!-- include the fb share button here -->
 <!-- Playlist View: If you are the host -->
 <ion-content class="has-header has-footer has-subheader" ng-show="isHost()">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
@@ -136,7 +138,7 @@
     <ul>
       <div class='row' ng-repeat="song in playlist">
         <div class="col-90">
-          <div play-from-playlist="song" ng-class="currentPlaying.id === song.id ? 'button button-royal button-block playlistItem' : 'button button-outline button-stable button-block playlistItem'">
+          <div play-from-playlist="song" ng-class="currentPlaying.id === song.id ? 'button button-royal button-block playlistItem' : 'button button-outline button-stable button-block playlistItem spotifyPlaylistItem'">
           {{ spotifyResponse.title }} by {{spotifyResponse.artist}}
           </div>
         </div>
@@ -153,8 +155,10 @@
 
 <!-- Playlist View: If you are a guest -->
 <ion-content class="has-header has-footer has-subheader" ng-show="!isHost()">  
+<!-- include the fb share button here -->
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
-    <div ng-bind-html="fbShare" ng-click='fbShareSend()'></div>
+    <span ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></span>
+    
     <div class="row card" ng-show="playlist.length === 0">    
     <center>
       <h3>There are no songs currently in your playlist.</h3>
@@ -164,7 +168,7 @@
     <ul>
       <div class='row' ng-repeat="song in playlist">
         <div class="col-90">
-          <div ng-class="currentPlaying.id === song.id ? 'button button-positive button-block playlistItem' : 'button button-outline button-stable button-block playlistItem'">
+          <div ng-click="spotifyTrackPlayer(song.uri)" data='{{ song.uri }}' ng-class="currentPlaying.id === song.id ? 'button button-positive button-block playlistItem spotifyPlaylistItem' : 'button button-outline button-stable button-block playlistItem spotifyPlaylistItem'">
           {{ song.title }} by {{song.artist}}
           </div>
         </div>
@@ -196,6 +200,25 @@
   </div> -->
 </div>
 <div class="spotify-embed spotify-embed-main" ng-mouseenter="spotifyExpand('enter')" ng-mouseleave="spotifyExpand('leave')">
-    <iframe src="https://embed.spotify.com/?uri=https://embed.spotify.com/user/hlyford11/playlist/1HqZmMA5762aaCz8zhe4Ff&theme=black" width="500" height="600" frameborder="0" allowtransparency="true"></iframe>
+    
 </div>
 </span>
+
+<!-- add playlist to spotify modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Make a Spotify Playlist</h4>
+      </div>
+      <div class="modal-body">
+        <p>Your guests can make this suggestions and you can select which like you'd like to enqueue on this Spotify playlist.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Make Playlist</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

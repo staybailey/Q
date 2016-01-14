@@ -41,6 +41,19 @@ angular.module('Q.services', [
       url: 'https://api.spotify.com/v1/search?type=track&limit=10&market=US&q=' + query      
     })
   }
+  // make a spotify palylist for the room
+  var makeSpotifyPlaylist = function () {      
+  // first get the token for that user
+  
+    return $http({
+      method: 'GET',
+      url: 'https://accounts.spotify.com/authorize/?client_id=2e485d308a5e41af89967ab8965ba617&response_type=code&redirect_uri=http://localhost:8000/spotifyLogin&scope=user-read-private%20user-read-email&state=34fFs29kd09'
+    })
+    // return $http ({
+    //   method: 'POST',
+    //   url: 'https://api.spotify.com/v1/search?type=track&limit=10&market=US&q=' + query      
+    // })
+  }
 
   // isHostData in factory stores whether or not
   // the current user is the host
@@ -52,11 +65,13 @@ angular.module('Q.services', [
     return isHostData;
   }
   var isSpotify = function(){
-    // change to be dynamic when we take this input    
+    // change to be dynamic when we take this input  
+    // CHANGE THIS LATER
+    return true;  
     return isSpotifyLanding;   
   }
   var isSpotifyFirst = function(input){
-    // change to checkbox later
+    // change to checkbox later    
     if (input === 'y') {
       isSpotifyLanding = true
     } else {
@@ -81,6 +96,7 @@ angular.module('Q.services', [
     isHost: isHost,
     isSpotify: isSpotify,
     isSpotifyFirst: isSpotifyFirst,
-    searchSpotifyTracks: searchSpotifyTracks
+    searchSpotifyTracks: searchSpotifyTracks,
+    makeSpotifyPlaylist: makeSpotifyPlaylist
   }
 })
