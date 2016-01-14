@@ -144,3 +144,19 @@ img.small {
         transform:translateX(-100%);
     }
 }
+.plus-button{
+  width: 35px;
+  height: auto;
+  float: right;
+}
+.minus-button{
+  width: 35px;
+  height: auto;
+  float: right;
+}
+.vote-count{
+  float:right;
+  font-size: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
