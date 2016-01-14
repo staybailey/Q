@@ -9,7 +9,7 @@ var randomString = function (number) {
   return output;
 }
 
-// There could be occassional roomname overlap but it one in 26^12
+// There could be occassional roomname overlap but it is one in 26^12
 var createRoom = function () {
   return 'jhbb' + randomString(12);
 }

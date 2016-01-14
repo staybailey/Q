@@ -37,6 +37,7 @@ $scope.searchSong = function (){
               track.image = tracks[i].artwork_url
           }
           $rootScope.$apply(function(){
+            console.log("THIS GOT CALLED")
             $rootScope.songs.push(track);
           })
         }
@@ -87,10 +88,12 @@ $scope.searchSong = function (){
       console.log('new room created successfully!');
       var url = '#/playlist?room=' + res.data;
       console.log('redirecting to the newly created room', url);
+      // MAY NOT WORK BUT RIGHT TRACK
+      Playlist.makeHost();
       window.location = url;
     }, function(err){
       console.log('ERR! new room was not created');
-    });
+    })
   }
 
   $scope.makeHost = function(){

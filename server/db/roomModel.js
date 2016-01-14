@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var roomSchema = mongoose.Schema({
   hash: String,
-  room: String,
+  room: {type: String, unique: true},
   host: String,
   eventName: String,
   startTime: Date,
