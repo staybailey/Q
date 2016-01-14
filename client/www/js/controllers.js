@@ -47,12 +47,12 @@ $scope.searchSong = function (){
 
   }
 
-  $scope.upVote = function(){
-    console.log('upVote');
+  $scope.upVote = function(song){
+    song.vote++;
   }
 
-  $scope.downVote = function(){
-    console.log('downVote');
+  $scope.downVote = function(song){
+    song.vote--;
   }
 
   $scope.clearResults = function (){
