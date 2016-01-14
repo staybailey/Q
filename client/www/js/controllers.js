@@ -5,10 +5,9 @@ angular.module('Q.controllers', [
 'angularSoundManager',
 'ngSanitize'
 ])
-
-.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) { 
-
- $rootScope.songs = [];
+.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) {
+ $rootScope.songs= [];
+ $rootScope.votes= [];
  $rootScope.customPlaylist;
  window.socket.emit('onJoin', queryStringValues['room']);
   // window.socket.emit('newGuest');
@@ -30,6 +29,26 @@ $scope.searchSong = function (isSpotify){
             $scope.spotifyResponse[0] = {};
             $scope.spotifyResponse[0].title = "please enter a search";
             $scope.spotifyResponse[0].artist = "YOU";
+
+$scope.searchSong = function (){
+    $rootScope.songs= [];
+    if($scope.query === ''){
+      return;
+    } else{
+      return Playlist.searchSongs($scope.query).then(function(tracks){
+        console.log(tracks)
+        for(var i = 0;i<tracks.length;i++){
+          console.log(tracks[i].artwork_url)
+          var track = {
+                            id: tracks[i].id,
+                            title: tracks[i].title,
+                            artist: tracks[i].user.permalink,
+                            url: tracks[i].stream_url + "?client_id=f270bdc572dc8380259d38d8015bdbe7",
+                            waveform: tracks[i].waveform_url,
+                        };
+          if(tracks[i].artwork_url === null){
+              track.image = '../img/notavailable.png';
+>>>>>>> Implement vote counts data persistent logic, more work to be done
           } else {
             console.log(resp);
             var spotifyResponseSongs = resp.data.tracks.items;          
@@ -77,19 +96,30 @@ $scope.searchSong = function (isSpotify){
               $rootScope.songs.push(track);
             })
           }
+<<<<<<< fac7a88c2a621bffaed77599e57b4776bd4c0bb8
         })
+=======
+          $rootScope.$apply(function(){
+            $rootScope.songs.push(track);
+            $rootScope.votes.push(0);
+          })
+        }
+      })
+>>>>>>> Implement vote counts data persistent logic, more work to be done
 
       }
     }
 
   }
 
-  $scope.upVote = function(song){
-    song.vote++;
+  $scope.upVote = function(index){
+    $rootScope.votes[index]++;
+    window.socket.emit('upVote');
   }
 
-  $scope.downVote = function(song){
-    song.vote--;
+  $scope.downVote = function(index){
+    $rootScope.votes[index]--;
+    window.socket.emit('downVote');
   }
 
   $scope.clearResults = function (){
