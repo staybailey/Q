@@ -84,7 +84,15 @@ $scope.searchSong = function (isSpotify){
 
   }
 
-  $scope.clearResults = function (){    
+  $scope.upVote = function(song){
+    song.vote++;
+  }
+
+  $scope.downVote = function(song){
+    song.vote--;
+  }
+
+  $scope.clearResults = function (){
     $scope.query = '';
     $rootScope.songs = [];
   }

@@ -67,6 +67,9 @@
             <div class="vote-count">0</div>
             <img src="../img/minus.gif" class="minus-button"/>
           </div>
+          <a href="" ng-click="upVote(song)"><img src="../img/plus.gif" class="plus-button" /></a>
+          <div class="vote-count">{{song.vote}}</div>
+          <a href="" ng-click="downVote(song)"><img src="../img/minus.gif" class="minus-button"/></a>
         </div>
       </div>
     </ul>
