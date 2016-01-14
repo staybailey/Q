@@ -42,17 +42,14 @@ module.exports = {
   },
  
 
-  /*
-
-  NOT USED SEEMINGLY 
 
   getQueue: function(room, callback) {
-    Room.findOne({identifier: room}, function(err, result) {
+    Room.findOne({room: room}, function(err, result) {
       callback(result.queue);
     });
   },
   
-  
+  /*
   saveQueue: function(updatedQueue, room, callback) {
     updatedQueue = updatedQueue.map(function(song) {
       delete song['$$hashKey'];

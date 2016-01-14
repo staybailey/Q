@@ -10,7 +10,7 @@ angular.module('Q.controllers', [
  $rootScope.songs= [];
  $rootScope.customPlaylist;
  window.socket.emit('onJoin', queryStringValues['room']);
-  // window.socket.emit('newGuest');
+  //window.socket.emit('newGuest');
   // include template for fb share button
  $scope.fbShare = $sce.trustAsHtml('<div><button class="btn btn-success">Share playlist with Facebook friends</button></div> ');
  
