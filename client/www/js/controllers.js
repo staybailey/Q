@@ -15,7 +15,7 @@ angular.module('Q.controllers', [
  $scope.fbShare = $sce.trustAsHtml('<div><button class="btn btn-success">Share playlist with Facebook friends</button></div> ');
  $scope.spotifyResponse = [];
 
-$scope.searchSong = function (isSpotify){
+  $scope.searchSong = function (isSpotify){
     if (isSpotify) {
       // call the spotify api 
       if ($scope.query === '') {
@@ -29,26 +29,6 @@ $scope.searchSong = function (isSpotify){
             $scope.spotifyResponse[0] = {};
             $scope.spotifyResponse[0].title = "please enter a search";
             $scope.spotifyResponse[0].artist = "YOU";
-
-$scope.searchSong = function (){
-    $rootScope.songs= [];
-    if($scope.query === ''){
-      return;
-    } else{
-      return Playlist.searchSongs($scope.query).then(function(tracks){
-        console.log(tracks)
-        for(var i = 0;i<tracks.length;i++){
-          console.log(tracks[i].artwork_url)
-          var track = {
-                            id: tracks[i].id,
-                            title: tracks[i].title,
-                            artist: tracks[i].user.permalink,
-                            url: tracks[i].stream_url + "?client_id=f270bdc572dc8380259d38d8015bdbe7",
-                            waveform: tracks[i].waveform_url
-                        };
-          if(tracks[i].artwork_url === null){
-              track.image = '../img/notavailable.png';
->>>>>>> Implement vote counts data persistent logic, more work to be done
           } else {
             console.log(resp);
             var spotifyResponseSongs = resp.data.tracks.items;          
@@ -96,21 +76,7 @@ $scope.searchSong = function (){
               $rootScope.songs.push(track);
             })
           }
-<<<<<<< fac7a88c2a621bffaed77599e57b4776bd4c0bb8
         })
-=======
-          $rootScope.$apply(function(){
-            $rootScope.songs.push(track);
-            //limit the length to 100
-            // if($rootScope.votes.length < 100){
-            //   $rootScope.votes.push(0);
-            // }
-            // console.log($rootScope.songs);
-            // console.log($rootScope.votes);
-          })
-        }
-      })
->>>>>>> Implement vote counts data persistent logic, more work to be done
 
       }
     }

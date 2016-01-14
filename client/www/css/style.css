@@ -166,7 +166,8 @@ img.small {
   margin-top: 3px;
   margin-left: 10px;
   margin-right: 10px;
-}.create-center {
+}
+.create-center {
   margin: 0 auto 0 auto;
 }
 /*spotify embed stuff below*/
@@ -188,3 +189,8 @@ img.small {
 
 }
 
+#platform-input {
+  appearance: radio;
+  -webkit-appearance:radio;
+  margin-left: 10px; /* Safari and Chrome */
+}
