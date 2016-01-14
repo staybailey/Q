@@ -47,7 +47,6 @@
     </ul>
     </div>
 </ion-content>
-
 <!-- Playlist View: If you are a guest -->
 <ion-content class="has-header has-footer has-subheader" ng-show="!isHost()">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
@@ -63,10 +62,13 @@
         <div class="col-90">
           <div ng-class="currentPlaying.id === song.id ? 'button button-positive button-block playlistItem' : 'button button-outline button-stable button-block playlistItem'">
             {{ song.title }} by {{song.artist}}
-            <div><img src="../img/plus.gif" class="plus-button"/></div>
+            <img src="../img/plus.gif" class="plus-button"/>
             <div class="vote-count">0</div>
-            <div><img src="../img/minus.gif" class="minus-button"/></div>
+            <img src="../img/minus.gif" class="minus-button"/>
           </div>
+          <a href="" ng-click="upVote($index)"><img src="../img/plus.gif" class="plus-button" /></a>
+          <div class="vote-count">{{votes[$index]}}</div>
+          <a href="" ng-click="downVote($index)"><img src="../img/minus.gif" class="minus-button"/></a>
         </div>
       </div>
     </ul>

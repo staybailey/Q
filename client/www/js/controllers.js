@@ -5,10 +5,9 @@ angular.module('Q.controllers', [
 'angularSoundManager',
 'ngSanitize'
 ])
-
-.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) { 
-
- $rootScope.songs = [];
+.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) {
+ $rootScope.songs= [];
+ $rootScope.votes= [];
  $rootScope.customPlaylist;
  window.socket.emit('onJoin', queryStringValues['room']);
   // window.socket.emit('newGuest');
@@ -16,7 +15,7 @@ angular.module('Q.controllers', [
  $scope.fbShare = $sce.trustAsHtml('<div><button class="btn btn-success">Share playlist with Facebook friends</button></div> ');
  $scope.spotifyResponse = [];
 
-$scope.searchSong = function (isSpotify){
+  $scope.searchSong = function (isSpotify){
     if (isSpotify) {
       // call the spotify api 
       if ($scope.query === '') {
@@ -84,7 +83,17 @@ $scope.searchSong = function (isSpotify){
 
   }
 
-  $scope.clearResults = function (){    
+  $scope.upVote = function(index){
+    $rootScope.votes[index]++;
+    window.socket.emit('voteChange');
+  }
+
+  $scope.downVote = function(index){
+    $rootScope.votes[index]--;
+    window.socket.emit('voteChange');
+  }
+
+  $scope.clearResults = function (){
     $scope.query = '';
     $rootScope.songs = [];
   }
