@@ -145,18 +145,21 @@ img.small {
     }
 }
 .plus-button{
-  width: 35px;
-  height: auto;
+  width: 25px;
+  height: 25px;
+  margin-top: 10px;
   float: right;
 }
 .minus-button{
-  width: 35px;
-  height: auto;
+  width: 25px;
+  height: 25px;
+  margin-top: 10px;
   float: right;
 }
 .vote-count{
   float:right;
-  font-size: 25px;
+  font-size: 20px;
+  margin-top: 3px;
   margin-left: 10px;
   margin-right: 10px;
 }
