@@ -29,7 +29,8 @@ $scope.searchSong = function (){
                             title: tracks[i].title,
                             artist: tracks[i].user.permalink,
                             url: tracks[i].stream_url + "?client_id=f270bdc572dc8380259d38d8015bdbe7",
-                            waveform: tracks[i].waveform_url
+                            waveform: tracks[i].waveform_url,
+                            vote: 4
                         };
           if(tracks[i].artwork_url === null){
               track.image = '../img/notavailable.png';
@@ -44,6 +45,14 @@ $scope.searchSong = function (){
 
     }
 
+  }
+
+  $scope.upVote = function(){
+    console.log('upVote');
+  }
+
+  $scope.downVote = function(){
+    console.log('downVote');
   }
 
   $scope.clearResults = function (){
