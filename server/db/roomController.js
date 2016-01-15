@@ -53,7 +53,7 @@ module.exports = {
       }
     });
 
-  }
+  },
 
 
   getQueue: function(room, callback) {
