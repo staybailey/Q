@@ -8,6 +8,7 @@ var roomSchema = mongoose.Schema({
   startTime: Date,
   endTime: Date,
   queue: [],
+  votes: [],
   guests: []
 
 });

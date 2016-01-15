@@ -113,4 +113,23 @@ io.on('connection', function (socket) {
     socket.emit('isPlaying', data);
     socket.broadcast.emit('isPlaying', data);
   });
+
+  socket.on('voteChange', function (data) {
+    var index = data.index;
+    var count = data.count;
+    
+  })
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
