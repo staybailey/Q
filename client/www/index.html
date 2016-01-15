@@ -40,6 +40,7 @@
     var queryStringValues = getUrlVars();
 
     </script>
+    <script src="lib/jquery/dist/jquery.js"></script>
     <script src="js/app.js"></script>
     <script src="js/services.js"></script>
     <script src="js/controllers.js"></script> 
@@ -148,6 +149,7 @@
       <ion-header-bar ng-class="isHost() ? 'bar bar-header bar-royal' : 'bar bar-header bar-positive'">
         <h1 class="title"><img src='./img/icon2.png' height='40' width='40'></h1>
         <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
+        <!-- <span style="margin-left: 85%;" ng-show="isSpotify()" ng-bind-html="SpotifyPlaylistMarkup" ></span> -->
       </ion-header-bar>
          <ion-nav-view></ion-nav-view>
     </ion-pane>

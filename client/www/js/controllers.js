@@ -12,7 +12,9 @@ angular.module('Q.controllers', [
  window.socket.emit('onJoin', queryStringValues['room']);
   //window.socket.emit('newGuest');
   // include template for fb share button
- $scope.fbShare = $sce.trustAsHtml('<div><button class="btn btn-success">Share playlist with Facebook friends</button></div> ');
+ $scope.fbShare = $sce.trustAsHtml('<button class="btn btn-success">Share playlist with Facebook friends</button> ');
+ $scope.SpotifyPlaylistMarkup = $sce.trustAsHtml('<button class="btn btn-danger spotify-login">Make Spotify Playlist</button> ');
+ 
  $scope.spotifyResponse = [];
 
   $scope.searchSong = function (isSpotify){
@@ -132,15 +134,28 @@ angular.module('Q.controllers', [
       $('.spotify-embed-main').addClass('spotify-embed', 500).removeClass('spotify-embed-active');
     }
   }
+
+  $scope.makeSpotifyPlaylist = function() {
+    console.log('nonow');
+    Playlist.makeSpotifyPlaylist
+  }
+  
+  $scope.spotifyTrackPlayer = function(spotifyUri) {
+    console.log(spotifyUri);
+    $('.spotify-embed').empty();
+    //$('.spotifyContainer').html('<iframe class="spotify-widget" src="https://embed.spotify.com/?uri=https://open.spotify.com/user/hlyford11/playlist/1HqZmMA5762aaCz8zhe4Ff&theme=black' + spotifyUri +'"" width="300" height="380" frameborder="0" allowtransparency="true"></iframe> ');
+    $('.spotify-embed').html('<iframe src="https://embed.spotify.com/?uri='+ spotifyUri + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
+    
+
+  }
   // console.log(Playlist.isHost());
 })
 
 .controller('landingPageController', function($scope, $http, $location, $state, Playlist){
-  $scope.roomData = {};
-
+  $scope.roomData = {};   
 
   $scope.createRoom = function(){
-    // check if it's a spotify room    
+    // check if it's a spotify room        
     Playlist.isSpotifyFirst($scope.roomData.spotify);
 
     $scope.roomData.host = FB.getUserID();

@@ -82,6 +82,9 @@ span.large{
 span.small{
    line-height:15px;
 }
+.scroll {
+  margin-top: 10px;
+}
 
 img.right {
   float:left;
@@ -173,20 +176,24 @@ img.small {
 /*spotify embed stuff below*/
 .spotify-embed {
     position: fixed;
-    width: 500px;
-    height: 500px;
+    width: 300px;
+    height: 400px;
     top: 83%;
     left: 30%;     
 }
 .spotify-embed-active {
-    position: fixed;
-    width: 500px;
-    height: 500px;
+    position: fixed;        
     top: 40%;
     left: 30%;     
 }
 .spotify-embed-main {
 
+}
+.fb-login-button {
+  margin-top: 4px;
+}
+.fbShareButton {
+  margin: 3% 0 0 33%;
 }
 
 #platform-input {

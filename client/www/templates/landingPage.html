@@ -31,7 +31,11 @@
 		  	<label class="item item-input create-center">
 		    	<ol class='create-center'>
 			    	<li>Event Name: <input type="string" ng-model="roomData.eventName"></li>
-			    	<li>Choose Platform: Spotify <input id="platform-input" type="radio" ng-model="roomData.spotify" name="playerApp"/> SoundCloud <input id="platform-input" type="radio" ng-model="roomData.spotify" name="playerApp"/> </li>
+			    	<li>
+			    		<label>Choose Platform: Spotify <input value=true id="platform-input" type="radio" ng-model="roomData.spotify" name="playerApp" ></label> 
+			    		<label>SoundCloud <input value=false id="platform-input" type="radio" ng-model="roomData.spotify" name="playerApp" > 
+			    		</label>
+			    	</li>
 			    	<li>Start Time: <input type="datetime-local" ng-model="roomData.startTime"></li>
 			    	<li>End Time: <input type="datetime-local" ng-model="roomData.endTime"></li>
 			    	<button type="submit">Done</button>
