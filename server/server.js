@@ -115,7 +115,20 @@ io.on('connection', function (socket) {
   });
 
   socket.on('voteChange', function (data) {
+    console.log('voteChange heard in server');
+    var room;
+
+    for (var key in socket.rooms) {
+      // The typeof is just an error check and should be gratuitous now
+      if (typeof socket.rooms[key] === 'string' && socket.rooms[key].substr(0, 4) === 'jhbb') { // THIS MUST MATCH room generator
+        room = socket.rooms[key];
+      }
+    }
+
+    console.log('room is...', room);
+    console.log('data is...', data);
     Room.updateVotes(data, room);
+
   });
   
 });
