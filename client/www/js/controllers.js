@@ -51,10 +51,6 @@ angular.module('Q.controllers', [
           }
         })      
 
-      // show the results in the dropdown list dealie
-
-      // selection adds to the playlist
-
     } else {
       // else do soundclound search
       $rootScope.songs= [];
@@ -113,11 +109,11 @@ angular.module('Q.controllers', [
   }
 
   $scope.isHost = function(){
-      return Playlist.isHost();
+    return Playlist.isHost();
   }
   // show the spotify stuff is that was selected
-  $scope.isSpotify = function(){      
-      return Playlist.isSpotify();
+  $scope.isSpotify = function(){         
+    return Playlist.isSpotify();
   }
 
   $scope.clearResults = function (){
