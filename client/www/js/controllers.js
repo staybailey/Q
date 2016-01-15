@@ -21,7 +21,7 @@ angular.module('Q.controllers', [
       // DATA IS RETURNED CORRECTLY BUT IT 
       // POPULATES THE WRONG VALUE
       // $rootScope.songs is for search
-      //$rootScope.spotify = resp.data.spotify;
+      $rootScope.spotify = resp.data.spotify;
       //$rootScope.votes = resp.data.votes;
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
@@ -137,7 +137,11 @@ angular.module('Q.controllers', [
   }
   // show the spotify stuff is that was selected
   $scope.isSpotify = function(){      
-      return Playlist.isSpotify();
+      if (Playlist.isSpotify() || $rootScope.spotify === true) {
+        return true;
+      } else {
+        return false;
+      }
   }
 
   $scope.clearResults = function (){

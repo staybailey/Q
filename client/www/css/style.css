@@ -179,12 +179,12 @@ img.small {
     width: 300px;
     height: 400px;
     top: 83%;
-    left: 36%;     
+    left: 38%;     
 }
 .spotify-embed-active {
     position: fixed;        
     top: 40%;  
-    left: 36%;      
+    left: 38%;      
 }
 .spotify-embed-main {
 
@@ -193,7 +193,10 @@ img.small {
   margin-top: 4px;
 }
 .fbShareButton {
-  margin: 3% 0 0 33%;
+  margin: 3% 0 0 36%;
+}
+.center-it-auto {
+  margin: 0 auto 0 auto;
 }
 
 #platform-input {
