@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/www'));
 app.use(session({
-  secret: twilio.config.secret,
+  secret: process.env.APP_SECRET || 'keyboard cat',
   resave: true,
   saveUninitialized: true
 }));

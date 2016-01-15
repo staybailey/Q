@@ -8,7 +8,6 @@ module.exports = function (app, express) {
   app.post('/newRoom', roomController.addRoom);
   app.get('/testdb', roomController.addRoom); // remove later
   app.get('/initPlaylist/:id', roomController.initPlaylist)
-
   app.get('/spotifyLogin', function(req, res, next) {
     console.log(req.body);
     
@@ -18,7 +17,16 @@ module.exports = function (app, express) {
     //   }
     // }) 
   })
-  app.post('/sendInvite', twilio.sendInvite);
+
+  app.post('/sendInvite', function (req, res) { 
+    twilio.sendInvite(req.body.number, req.body.url, function (err, sent) {
+      if (err) {
+        return res.send({err: err});
+      } else {
+        res.send(sent);
+      }
+    })
+  });
 };
 
 

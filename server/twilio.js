@@ -1,68 +1,56 @@
-// var dotenv = require('dotenv');
-var config = {};
+var twilio = require('twilio');
+var client = twilio(accountSid, authToken);
+var cronJob = require('cron').CronJob;
 
-// if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
-//   dotenv.config({path: '.env'});
-// } else {
-//   dotenv.config({path: '.env.test', silent: true});
-// }
-
-// A random string that will help generate secure one-time passwords and
-// HTTP sessions
-config.secret = process.env.APP_SECRET || 'keyboard cat';
-
-// Your Twilio account SID and auth token, both found at:
-// https://www.twilio.com/user/account
-//
-// A good practice is to store these string values as system environment
-// variables, and load them from there as we are doing below. Alternately,
-// you could hard code these values here as strings.
-
-config.accountSid = 'AC46011ec72a62a1ebde2e38ee25456ffe';
-config.authToken = '1c86a89a3a5b006208a9e09268dc486b';
-config.sendingNumber = '+15005550006';
+var accountSid = 'AC46011ec72a62a1ebde2e38ee25456ffe';
+var authToken = '1c86a89a3a5b006208a9e09268dc486b';
+var sendingNumber = '+15005550006';
 
 
-var requiredConfig = [config.accountSid, config.authToken, config.sendingNumber];
-var isConfigured = requiredConfig.every(function(configValue) {
-  return configValue || false;
-});
-
-if (!isConfigured) {
-  var errorMessage =
-    'TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_NUMBER must be set.';
-
-  throw new Error(errorMessage);
-}
-
-// Export configuration object
-module.exports.config = config;
-
-
-
-var client = require('twilio')(config.accountSid, config.authToken);
-
-module.exports.sendSms = function(to, message) {
+function sendInvite (to, url, cb) {
+  var to = typeof to === 'object' ? to.body.number : to;
+  var url = typeof to === 'object' ? to.body.url : url;
   client.messages.create({
-    body: message,
+    body: "You've been invited to modify the playlist at this event, using the following link: " + url,
     to: to,
-    from: config.sendingNumber
+    from: sendingNumber
 //  mediaUrl: imageUrl
   }, function(err, data) {
     if (err) {
       console.error('SMS not sent');
       console.error(err);
     } else {
-      console.log('SMS SENT!');
+      console.log('SMS sent to ' + data.to);
+      if (cb) {
+        cb(data.to);
+      }
     }
   });
 };
 
-function formatMessage (url) {
-  return "You've been invited to modify the playlist at this event, using the following link: " + url;
+function translateTime (startTime, TMinusMinutes) {
+
 }
 
-module.exports.sendInvite = function (req, res, next) {
-  var messageToSend = formatMessage(req.body.url);
-  module.exports.sendSms(req.body.number, messageToSend);
+function createReminder (event) {
+  var newTextJob = new cronJob('0 ' + translateTime(event.startTime, event.tMinusMinutes) + ' 0', function () {
+    for (var i = 0; i < event.guests.length; i++) {
+      sendInvite(event.guests[i], event.url);
+    }
+  }, null, true);
+  return newTextJob;
 }
+
+
+var numbersToCall = ['+14156528632', '+16507555705'];
+
+var textJob = new cronJob('0 0 0 * * *', function () {
+  console.log('CRON has automatically generated this at ' + new Date());
+  for (var i = 0; i < numbersToCall.length; i++) {
+    sendInvite(numbersToCall[i], 'http://www.google.com');
+  }
+}, null, true);
+
+module.exports = {
+  sendInvite: sendInvite
+};
