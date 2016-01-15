@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Room = require('./roomModel');
+var io = require('socket.io');
 
 var randomString = function (number) {
   var output = '';
@@ -16,7 +17,7 @@ var createRoom = function () {
 
 module.exports = {
   addRoom: function(req, res, next) {
-    console.log("ADDING ROOM")
+    console.log("ADDING ROOM");
     var room = createRoom();
     console.log(room);
     var newRoom = new Room({
@@ -56,6 +57,27 @@ module.exports = {
         res.json(output);
       }
     })
+  },
+  
+  updateVotes: function(data, room) {
+    console.log("UPDATING VOTES");
+    Room.findOne({ 'room' : room }, function (err, targetRoom) {
+      if (err) {
+        console.log('could not find the room whose votes data was to be updated');
+      } else {
+        targetRoom.votes[data.index] = data.count;
+        targetRoom.markModified('votes');
+        targetRoom.save();
+        console.log('the votes array..', targetRoom.votes);
+      }
+    });
+  },
+
+
+  getQueue: function(room, callback) {
+    Room.findOne({room: room}, function(err, result) {
+      callback(result.queue);
+    });
   },
   
   /*

@@ -34,6 +34,10 @@ angular.module('Q.controllers', [
  $scope.SpotifyPlaylistMarkup = $sce.trustAsHtml('<button class="btn btn-danger spotify-login">Make Spotify Playlist</button> ');
  
  $scope.spotifyResponse = [];
+ window.socket.on('voteChange', function(data){
+  console.log('vote changed! said client')
+  $rootScope.votes = data;
+ })
 
   $scope.searchSong = function (isSpotify){
     // This seems gratuitous
@@ -108,14 +112,14 @@ angular.module('Q.controllers', [
   $scope.upVote = function(index){
     $rootScope.votes[index]++;
     var data = {index: index, count: $rootScope.votes[index]};
-    console.log(data);
+    console.log('upvote data is...', data);
     window.socket.emit('voteChange', data);
   }
 
   $scope.downVote = function(index){
     $rootScope.votes[index]--;
     var data = {index: index, count: $rootScope.votes[index]};
-    console.log(data);
+    console.log('downvote data is...', data);
     window.socket.emit('voteChange', data);
   }
 

@@ -9,7 +9,8 @@ var roomSchema = mongoose.Schema({
   endTime: Date,
   spotify: Boolean,
   queue: [],
-  votes: []
+  votes: [],
+  guests: []
 
 });
 
