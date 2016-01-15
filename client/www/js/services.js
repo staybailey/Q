@@ -4,6 +4,8 @@ angular.module('Q.services', [
 
 
 .factory('Playlist', function($http){
+    
+  // NOT CLEAR WHAT THIS DOES BUT USED BY IO
   var getSongs = function(){
       return $http ({
         method: 'GET',
@@ -11,11 +13,11 @@ angular.module('Q.services', [
       }).then(function(response){
         return response.data;
       })
-  }
+  };
 
   var addSong = function (song){
     return $http ({
-      method: 'POST',
+      method: 'GET',
       url: '/',
       data: song
     })
