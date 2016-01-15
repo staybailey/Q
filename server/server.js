@@ -7,18 +7,10 @@ var SC = require('node-soundcloud');
 var db = require('./db/dbConfig');
 var Room = require('./db/roomController');
 var roomModel = require('./db/roomModel');
-var twilio = require('./twilio');
-var session = require('express-session');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/www'));
-app.use(session({
-  secret: process.env.APP_SECRET || 'keyboard cat',
-  resave: true,
-  saveUninitialized: true
-}));
-app.use(twilio.sendInvite);
 
 require('./routes.js')(app, express);
 
