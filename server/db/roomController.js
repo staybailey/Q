@@ -16,7 +16,7 @@ var createRoom = function () {
 
 module.exports = {
   addRoom: function(req, res, next) {
-    console.log("ADDING ROOM")
+    console.log("ADDING ROOM");
     var room = createRoom();
     console.log(room);
     var newRoom = new Room({
@@ -55,7 +55,27 @@ module.exports = {
         output.spotify = result.spotify;
         res.json(output);
       }
-    })
+    }),
+  
+  updateVotes: function(data, room, callback) {
+    console.log("UPDATING VOTES");
+    Room.findOne({ 'room' : room }, function (err, targetRoom) {
+      if (err) {
+        console.log('could not find the room whose votes data was to be updated');
+      } else {
+        targetRoom.votes[data.index] = data.count;
+        targetRoom.markModified('votes');
+        targetRoom.save();
+      }
+    });
+
+  },
+
+
+  getQueue: function(room, callback) {
+    Room.findOne({room: room}, function(err, result) {
+      callback(result.queue);
+    });
   },
   
   /*
