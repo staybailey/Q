@@ -236,6 +236,9 @@ angular.module('Q.controllers', [
 
   $scope.attemptHost = false;
   $scope.createRoomPassword;
+<<<<<<< HEAD
   */
 })
-
+=======
+})
+>>>>>>> testing
