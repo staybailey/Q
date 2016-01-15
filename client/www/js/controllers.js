@@ -76,6 +76,7 @@ angular.module('Q.controllers', [
             }
             $rootScope.$apply(function(){
               $rootScope.songs.push(track);
+              $rootScope.votes.push(0);
             })
           }
         })
@@ -87,12 +88,16 @@ angular.module('Q.controllers', [
 
   $scope.upVote = function(index){
     $rootScope.votes[index]++;
-    window.socket.emit('voteChange');
+    var data = {index: index, count: $rootScope.votes[index]};
+    console.log(data);
+    window.socket.emit('voteChange', data);
   }
 
   $scope.downVote = function(index){
     $rootScope.votes[index]--;
-    window.socket.emit('voteChange');
+    var data = {index: index, count: $rootScope.votes[index]};
+    console.log(data);
+    window.socket.emit('voteChange', data);
   }
 
   $scope.clearResults = function (){

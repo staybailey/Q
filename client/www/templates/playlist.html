@@ -64,9 +64,6 @@
         <div class="col-90">
           <div ng-class="currentPlaying.id === song.id ? 'button button-positive button-block playlistItem spotifyPlaylistItem' : 'button button-outline button-stable button-block playlistItem spotifyPlaylistItem'">
             {{ song.title }} by {{song.artist}}
-            <img src="../img/plus.gif" class="plus-button"/>
-            <div class="vote-count">0</div>
-            <img src="../img/minus.gif" class="minus-button"/>
           </div>
           <a href="" ng-click="upVote($index)"><img src="../img/plus.gif" class="plus-button" /></a>
           <div class="vote-count">{{votes[$index]}}</div>
