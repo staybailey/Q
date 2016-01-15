@@ -59,7 +59,7 @@ module.exports = {
     })
   },
   
-  updateVotes: function(data, room) {
+  updateVotes: function(data, room, callback) {
     console.log("UPDATING VOTES");
     Room.findOne({ 'room' : room }, function (err, targetRoom) {
       if (err) {
@@ -69,6 +69,7 @@ module.exports = {
         targetRoom.markModified('votes');
         targetRoom.save();
         console.log('the votes array..', targetRoom.votes);
+        callback(targetRoom.votes);
       }
     });
   },
