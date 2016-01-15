@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Room = require('./roomModel');
+var io = require('socket.io');
 
 var randomString = function (number) {
   var output = '';
@@ -41,7 +42,7 @@ module.exports = {
     });
   },
   
-  updateVotes: function(data, room, callback) {
+  updateVotes: function(data, room) {
     console.log("UPDATING VOTES");
     Room.findOne({ 'room' : room }, function (err, targetRoom) {
       if (err) {
@@ -52,7 +53,6 @@ module.exports = {
         targetRoom.save();
       }
     });
-
   },
 
 
