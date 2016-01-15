@@ -56,7 +56,8 @@ module.exports = {
         output.spotify = result.spotify;
         res.json(output);
       }
-    }),
+    })
+  },
   
   updateVotes: function(data, room) {
     console.log("UPDATING VOTES");
