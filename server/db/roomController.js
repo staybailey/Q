@@ -26,9 +26,9 @@ module.exports = {
       eventName: req.body.eventName,
       startTime: req.body.startTime,
       endTime: req.body.endTime,
+      spotify: req.body.spotify || true, // Default to spotify
       queue: [],
-      guests: []
-
+      votes: []
     });
     newRoom.save(function(err) {
       if (err) {
@@ -37,16 +37,25 @@ module.exports = {
         console.log('saved new room');
         res.end(room);
       }
-      // res.end();
     });
   },
  
-
-
-  getQueue: function(room, callback) {
-    Room.findOne({room: room}, function(err, result) {
-      callback(result.queue);
-    });
+  initPlaylist: function(req, res, next) {
+    console.log("Initializing Playlist");
+    Room.findOne({room: req.params.id}, function (err, result) {
+      var output;;
+      if (err) {
+        console.log("error geting playlist");
+        res.statusCode('404')
+        res.end();
+      } else if (result) {
+        output = {};
+        output.queue = result.queue;
+        output.votes = result.votes;
+        output.spotify = result.spotify;
+        res.json(output);
+      }
+    })
   },
   
   /*

@@ -5,13 +5,28 @@ angular.module('Q.controllers', [
 'angularSoundManager',
 'ngSanitize'
 ])
-.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce) {
+.controller('playlistController', function($scope, $http, $rootScope, $location, Playlist, $sce) {
  $rootScope.songs= [];
  $rootScope.votes= [];
+ $rootScope.spotify = false;
  $rootScope.customPlaylist;
  var roomUrl = queryStringValues['room'];
  if (roomUrl) {
-   window.socket.emit('onJoin', roomUrl);
+   $http ({
+    method: 'GET',
+    url: '/initPlaylist/' + roomUrl
+   })
+    .then(function (resp) {
+      console.log(resp.data, "RESPONSE DATA");
+      // DATA IS RETURNED CORRECTLY BUT IT 
+      // POPULATES THE WRONG VALUE
+      // $rootScope.songs is for search
+      //$rootScope.spotify = resp.data.spotify;
+      //$rootScope.votes = resp.data.votes;
+      //$rootScope.songs = resp.data.songs;
+      window.socket.emit('onJoin', roomUrl);
+      window.socket.emit('getQueue')
+    });
    // AND DO GET REQUEST FOR SONGS WITH ROOMURL
  } //window.socket.emit('newGuest');
   // include template for fb share button
@@ -21,7 +36,8 @@ angular.module('Q.controllers', [
  $scope.spotifyResponse = [];
 
   $scope.searchSong = function (isSpotify){
-    if (isSpotify) {
+    // This seems gratuitous
+    if ($rootScope.spotify || isSpotify) {
       // call the spotify api 
       if ($scope.query === '') {
         $('.spotifyResults').hide()
@@ -50,6 +66,10 @@ angular.module('Q.controllers', [
             }                 
           }
         })      
+
+      // show the results in the dropdown list dealie
+
+      // selection adds to the playlist
 
     } else {
       // else do soundclound search
@@ -109,11 +129,11 @@ angular.module('Q.controllers', [
   }
 
   $scope.isHost = function(){
-    return Playlist.isHost();
+      return Playlist.isHost();
   }
   // show the spotify stuff is that was selected
-  $scope.isSpotify = function(){         
-    return Playlist.isSpotify();
+  $scope.isSpotify = function(){      
+      return Playlist.isSpotify();
   }
 
   $scope.clearResults = function (){
