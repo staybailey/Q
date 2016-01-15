@@ -115,10 +115,9 @@ io.on('connection', function (socket) {
   });
 
   socket.on('voteChange', function (data) {
-    var index = data.index;
-    var count = data.count;
-    
-  })
+    Room.updateVotes(data, room);
+  });
+  
 });
 
 
