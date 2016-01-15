@@ -35,9 +35,11 @@ angular.module('Q.controllers', [
  
  $scope.spotifyResponse = [];
  window.socket.on('voteUpdate', function(data){
-  console.log('vote changed! said client')
-  $rootScope.votes = data;
- })
+  console.log('vote changed! said client', data);
+  $scope.$apply(function(){
+    $rootScope.votes = data;
+  });
+ });
 
   $scope.searchSong = function (isSpotify){
     // This seems gratuitous
