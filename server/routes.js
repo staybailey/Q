@@ -2,6 +2,7 @@ var roomController = require('./db/roomController');
 var userSigninController = require('./db/userSigninController');
 var request = require('request');
 var bodyParser = require('body-parser');
+var twilio = require('./twilio.js')
 
 module.exports = function (app, express) {
   app.post('/newUser', userSigninController.addUser);
@@ -16,14 +17,14 @@ module.exports = function (app, express) {
     //     console.log(body);
     //   }
     // }) 
-  })
+  });
 
   app.post('/sendInvite', function (req, res) { 
     twilio.sendInvite(req.body.number, req.body.url, function (err, sent) {
       if (err) {
         return res.send({err: err});
       } else {
-        res.send(sent);
+        res.send('Text message sento to ' + sent);
       }
     })
   });

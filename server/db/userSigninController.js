@@ -11,9 +11,9 @@ module.exports = {
         if (result === null) {          
           var newUser = new User({name: req.body.name, id: req.body.id});
           newUser.save();
-          res.send(201);
+          res.sendStatus(201);
         } else {
-          res.send(200);
+          res.sendStatus(200);
         }
       });
   }
