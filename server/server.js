@@ -38,7 +38,7 @@ roomModel.remove({}, function() {
 
 
 io.on('connection', function (socket) {
-  console.log('New user logged on with ID of: ' + socket.id);
+  // console.log('New user logged on with ID of: ' + socket.id);
   // This line needed only for Heroku, comment it out if serving locally
   // io.set("transports", ["polling"]); 
 
@@ -48,7 +48,6 @@ io.on('connection', function (socket) {
 
   socket.on('onJoin', function (room) {
     socket.join(room);
-    console.log(socket.id + 'has joined room: ' + room + ' with: ', io.sockets.adapter.rooms[room].sockets);
     console.log("THE SOCKET ROOMS ARRAY IS\n", socket.rooms);
     /*
     Room.getQueue(room, function (queue) {
@@ -59,15 +58,15 @@ io.on('connection', function (socket) {
   });
 
   socket.on('addSong', function (newSong) {
-    console.log("SOCKET ROOMS", socket.rooms);
-    console.log("SOCKET ROOMS TYPEOF =", typeof socket.rooms);
+    console.log("SOCKET ROOMS ON ADD SONG:", socket.rooms);
     var room;
     for (var key in socket.rooms) {
-      if (socket.rooms[key].substr(0, 4) === 'jhbb') { // THIS MUST MATCH room generator
+      // The typeof is just an error check and should be gratuitous now
+      if (typeof socket.rooms[key] === 'string' && socket.rooms[key].substr(0, 4) === 'jhbb') { // THIS MUST MATCH room generator
         room = socket.rooms[key];
       }
     }
-    console.log(room);
+    console.log("ADDING SONG TO THE ROOM:", room);
     if (room) {
       Room.addSong(newSong, room, function() {
         socket.emit('newSong', newSong);

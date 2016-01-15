@@ -9,8 +9,11 @@ angular.module('Q.controllers', [
  $rootScope.songs= [];
  $rootScope.votes= [];
  $rootScope.customPlaylist;
- window.socket.emit('onJoin', queryStringValues['room']);
-  //window.socket.emit('newGuest');
+ var roomUrl = queryStringValues['room'];
+ if (roomUrl) {
+   window.socket.emit('onJoin', roomUrl);
+   // AND DO GET REQUEST FOR SONGS WITH ROOMURL
+ } //window.socket.emit('newGuest');
   // include template for fb share button
  $scope.fbShare = $sce.trustAsHtml('<button class="btn btn-success">Share playlist with Facebook friends</button> ');
  $scope.SpotifyPlaylistMarkup = $sce.trustAsHtml('<button class="btn btn-danger spotify-login">Make Spotify Playlist</button> ');
@@ -175,12 +178,18 @@ angular.module('Q.controllers', [
       console.log('new room created successfully!');
       var url = '#/playlist?room=' + res.data;
       console.log('redirecting to the newly created room', url);
+      // MAY NOT WORK BUT RIGHT TRACK
+      Playlist.makeHost();
+      console.log(Playlist.isHost(), "I am the host");
+      window.socket.emit('onJoin', res.data);
       window.location = url;
+
     }, function(err){
       console.log('ERR! new room was not created');
-    });
+    })
   }
 
+  /*
   $scope.makeHost = function(){
 
     // Note: this is a temporary fix for the demo, and should not be used as actual authentication
@@ -194,7 +203,9 @@ angular.module('Q.controllers', [
     Playlist.makeGuest();
     $state.go('playlist');
   }
+  
 
   $scope.attemptHost = false;
   $scope.createRoomPassword;
+  */
 })
