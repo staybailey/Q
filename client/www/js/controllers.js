@@ -22,7 +22,7 @@ angular.module('Q.controllers', [
       // POPULATES THE WRONG VALUE
       // $rootScope.songs is for search
       $rootScope.spotify = resp.data.spotify;
-      //$rootScope.votes = resp.data.votes;
+      $rootScope.votes = resp.data.votes;
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
       window.socket.emit('getQueue')
@@ -34,10 +34,12 @@ angular.module('Q.controllers', [
  $scope.SpotifyPlaylistMarkup = $sce.trustAsHtml('<button class="btn btn-danger spotify-login">Make Spotify Playlist</button> ');
  
  $scope.spotifyResponse = [];
- window.socket.on('voteChange', function(data){
-  console.log('vote changed! said client')
-  $rootScope.votes = data;
- })
+ window.socket.on('voteUpdate', function(data){
+  console.log('vote changed! said client', data);
+  $scope.$apply(function(){
+    $rootScope.votes = data;
+  });
+ });
 
   $scope.searchSong = function (isSpotify){
     // This seems gratuitous

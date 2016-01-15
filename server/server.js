@@ -127,7 +127,10 @@ io.on('connection', function (socket) {
 
     console.log('room is...', room);
     console.log('data is...', data);
-    Room.updateVotes(data, room);
+    Room.updateVotes(data, room, function(voteCounts){
+      socket.emit('voteUpdate', voteCounts)
+      socket.to(room).broadcast.emit('voteUpdate', voteCounts)
+    });
 
   });
   
