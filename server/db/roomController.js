@@ -51,6 +51,7 @@ module.exports = {
         targetRoom.votes[data.index] = data.count;
         targetRoom.markModified('votes');
         targetRoom.save();
+        console.log('the votes array..', targetRoom.votes);
       }
     });
   },

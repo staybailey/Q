@@ -20,6 +20,7 @@ angular.module('Q.controllers', [
  
  $scope.spotifyResponse = [];
  window.socket.on('voteChange', function(data){
+  console.log('vote changed! said client')
   $rootScope.votes = data;
  })
 
