@@ -33,6 +33,7 @@ function translateTime (startTime, TMinusMinutes) {
 }
 
 function createReminder (event) {
+  console.log('This instance is coming from the createReminder function declaration');
   var newTextJob = new cronJob('0 ' + translateTime(event.startTime, event.tMinusMinutes) + ' 0', function () {
     for (var i = 0; i < event.guests.length; i++) {
       sendInvite(event.guests[i], event.url);
