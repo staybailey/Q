@@ -44,7 +44,7 @@ module.exports = {
   initPlaylist: function(req, res, next) {
     console.log("Initializing Playlist");
     Room.findOne({room: req.params.id}, function (err, result) {
-      var output;;
+      var output;
       if (err) {
         console.log("error geting playlist");
         res.statusCode('404')
@@ -54,6 +54,7 @@ module.exports = {
         output.queue = result.queue;
         output.votes = result.votes;
         output.spotify = result.spotify;
+        output.host = result.host;
         res.json(output);
       }
     })

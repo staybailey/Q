@@ -6,10 +6,10 @@ angular.module('Q.controllers', [
 'ngSanitize'
 ])
 .controller('playlistController', function($scope, $http, $rootScope, $location, Playlist, $sce) {
- $rootScope.songs= [];
- $rootScope.votes= [];
- $rootScope.spotify = false;
- $rootScope.customPlaylist;
+ // $rootScope.songs= [];
+ // $rootScope.votes= [];
+ // $rootScope.spotify = false;
+ // $rootScope.customPlaylist;
  var roomUrl = queryStringValues['room'];
  if (roomUrl) {
    $http ({
@@ -18,14 +18,21 @@ angular.module('Q.controllers', [
    })
     .then(function (resp) {
       console.log(resp.data, "RESPONSE DATA");
+      console.log('FB id', FB.getUserID());
       // DATA IS RETURNED CORRECTLY BUT IT 
       // POPULATES THE WRONG VALUE
       // $rootScope.songs is for search
       $rootScope.spotify = resp.data.spotify;
       $rootScope.votes = resp.data.votes;
+      var userID = FB.getUserID();
+      $scope.isHost = resp.data.host === userID;
+      console.log('host comp', resp.data.host, userID);
+
+      console.log('is host?', $rootScope.isHost)
+ 
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
-      window.socket.emit('getQueue')
+      window.socket.emit('getQueue');
     });
    // AND DO GET REQUEST FOR SONGS WITH ROOMURL
  } //window.socket.emit('newGuest');
