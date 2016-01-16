@@ -77,7 +77,6 @@ module.exports = {
 
   getQueue: function(room, callback) {
     Room.findOne({room: room}, function(err, result) {
-      console.log('\n\n\n\n\n\n\n\n\n', 'Room Controller found a result with queue: ', result.queue);
       callback(result.queue);
     });
   },
