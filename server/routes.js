@@ -24,7 +24,7 @@ module.exports = function (app, express) {
       if (err) {
         return res.send({err: err});
       } else {
-        res.send('Text message sento to ' + sent);
+        res.send('Text message sent to ' + sent);
       }
     })
   });
