@@ -71,8 +71,9 @@ angular.module('Q.services', [
     return isSpotifyLanding;   
   }
   var isSpotifyFirst = function(input){
-    // change to checkbox later        
-    if (input) {
+    // change to checkbox later
+    console.log('input in isSpotifyFirst', input);     
+    if (input === 'true') {
       isSpotifyLanding = true
     } else {
       isSpotifyLanding = false

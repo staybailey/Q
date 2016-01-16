@@ -25,8 +25,9 @@
 <!-- CONTENT -->
 <!-- include the fb share button here -->
 <!-- Playlist View: If you are the host -->
-<ion-content class="has-header has-footer has-subheader" ng-show="isHost()">  
+<ion-content class="has-header has-footer has-subheader" ng-show="hostStatus">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
+  <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
     <div class="row card" ng-show="playlist.length === 0">
     <center class="center-it-auto">
       <h3>There are no songs currently in your playlist.</h3>
@@ -39,8 +40,11 @@
           <div play-from-playlist="song" ng-class="currentPlaying.id === song.id ? 'button button-royal button-block playlistItem' : 'button button-outline button-stable button-block playlistItem'">
           {{ song.title }} by {{song.artist}}
           </div>
+          <a href="" ng-click="upVote($index)"><img src="../img/plus.gif" class="plus-button" /></a>
+          <div class="vote-count">{{votes[$index]}}</div>
+          <a href="" ng-click="downVote($index)"><img src="../img/minus.gif" class="minus-button"/></a>
         </div>
-        <div ng-show="isHost()">
+        <div ng-show="hostStatus">
           <a remove-from-playlist="song" data-index="{{$index}}" ng-class="currentPlaying.id === song.id ? 'button button-clear button-royal button-block' : 'button button-clear button-stable button-block'">
             <i class="ion-close-round"></i>
           </a>
@@ -50,7 +54,7 @@
     </div>
 </ion-content>
 <!-- Playlist View: If you are a guest -->
-<ion-content class="has-header has-footer has-subheader" ng-show="!isHost()">  
+<ion-content class="has-header has-footer has-subheader" ng-show="!hostStatus">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
     <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
     <div class="row card" ng-show="playlist.length === 0">    
@@ -77,7 +81,7 @@
 <!-- FOOTER  -->
 <div class="bar bar-footer row row-center bar-stable">
   <!-- Player Control Buttons: Only for host -->
-  <div class="col-20" style="margin-left: auto; margin-right: auto; float:left; min-width:160px" ng-show="isHost()">
+  <div class="col-20" style="margin-left: auto; margin-right: auto; float:left; min-width:160px" ng-show="hostStatus">
     <button play-music class="ion-play button button-outline button-royal circle bottomButton"></button>
     <button pause-music class="ion-pause button button-outline button-royal bottomButton"></button>
     <button prev-track class="ion-skip-backward button button-outline button-royal bottomButton"></button>
@@ -85,7 +89,7 @@
   </div>
 
   <!-- Now Playing: Seen by host and guest -->
-  <div ng-class="isHost() ? 'nowplayingHost center' : 'nowplaying center'">
+  <div ng-class="hostStatus ? 'nowplayingHost center' : 'nowplaying center'">
     <span ng-show='currentPlaying.title' class='marquee center small'>
       <p>
         <img height="28" width="28" style="float: left; margin-right:5px" class="rounded" src={{currentPlaying.image}}> 
@@ -124,8 +128,9 @@
 
 <!-- CONTENT -->
 <!-- Playlist View: If you are the host -->
-<ion-content class="has-header has-footer has-subheader" ng-show="isHost()">  
+<ion-content class="has-header has-footer has-subheader" ng-show="hostStatus">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
+  <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
     <div class="row card" ng-show="playlist.length === 0">
     <center class="center-it-auto">
       <h3>There are no songs currently in your playlist.</h3>
@@ -138,8 +143,11 @@
           <div play-from-playlist="song" ng-class="currentPlaying.id === song.id ? 'button button-royal button-block playlistItem' : 'button button-outline button-stable button-block playlistItem spotifyPlaylistItem'">
           {{ song.title }} by {{song.artist}}
           </div>
+          <a href="" ng-click="upVote($index)"><img src="../img/plus.gif" class="plus-button" /></a>
+          <div class="vote-count">{{votes[$index]}}</div>
+          <a href="" ng-click="downVote($index)"><img src="../img/minus.gif" class="minus-button"/></a>
         </div>
-        <div ng-show="isHost()">
+        <div ng-show="hostStatus">
           <a remove-from-playlist="song" data-index="{{$index}}" ng-class="currentPlaying.id === song.id ? 'button button-clear button-royal button-block' : 'button button-clear button-stable button-block'">
             <i class="ion-close-round"></i>
           </a>
@@ -151,7 +159,7 @@
 
 
 <!-- Playlist View: If you are a guest -->
-<ion-content class="has-header has-footer has-subheader" ng-show="!isHost()">  
+<ion-content class="has-header has-footer has-subheader" ng-show="!hostStatus">  
 <!-- include the fb share button here -->
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
     <span ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></span>
@@ -168,6 +176,9 @@
           <div ng-click="spotifyTrackPlayer(song.uri)" data='{{ song.uri }}' ng-class="currentPlaying.id === song.id ? 'button button-positive button-block playlistItem spotifyPlaylistItem' : 'button button-outline button-stable button-block playlistItem spotifyPlaylistItem'">
           {{ song.title }} by {{song.artist}}
           </div>
+          <a href="" ng-click="upVote($index)"><img src="../img/plus.gif" class="plus-button" /></a>
+          <div class="vote-count">{{votes[$index]}}</div>
+          <a href="" ng-click="downVote($index)"><img src="../img/minus.gif" class="minus-button"/></a>
         </div>
       </div>
     </ul>
@@ -178,7 +189,7 @@
 <div class="bar bar-footer row row-center bar-stable">
 
   <!-- Player Control Buttons: Only for host -->
-  <!-- <div class="col-20" style="margin-left: auto; margin-right: auto; float:left; min-width:160px" ng-show="isHost()">
+  <!-- <div class="col-20" style="margin-left: auto; margin-right: auto; float:left; min-width:160px" ng-show="hostStatus">
     <button play-music class="ion-play button button-outline button-royal circle bottomButton"></button>
     <button pause-music class="ion-pause button button-outline button-royal bottomButton"></button>
     <button prev-track class="ion-skip-backward button button-outline button-royal bottomButton"></button>
@@ -186,7 +197,7 @@
   </div> -->
 
   <!-- Now Playing: Seen by host and guest -->
-  <!-- <div ng-class="isHost() ? 'nowplayingHost center' : 'nowplaying center'">
+  <!-- <div ng-class="hostStatus ? 'nowplayingHost center' : 'nowplaying center'">
     <span ng-show='currentPlaying.title' class='marquee center small'>
       <p>
         <img height="28" width="28" style="float: left; margin-right:5px" class="rounded" src={{currentPlaying.image}}> 
