@@ -56,6 +56,9 @@ module.exports = {
         output = {};
         output.votes = result.votes;
         output.spotify = result.spotify;
+        output.eventName = result.eventName;
+        output.startTime = result.startTime;
+        output.endTime = result.endTime;
         output.host = result.host;
         res.json(output);
       }

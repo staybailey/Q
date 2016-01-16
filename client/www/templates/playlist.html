@@ -1,6 +1,7 @@
 <!-- SUBHEADER -->
 <!-- <div class="spotifyContainer" style="position: fixed; left: 85%; top: 40%; width: 300; height: 380"></div> -->
 <!-- Search Bar -->
+
 <span ng-show="!isSpotify()">
 <div ng-show="!isSpotify()" class="bar bar-subheader item-input-inset">
   <label class="item-input-wrapper">
@@ -27,7 +28,18 @@
 <!-- Playlist View: If you are the host -->
 <ion-content class="has-header has-footer has-subheader" ng-show="hostStatus">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
-  <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
+    <div class="row card">
+    <center class="center-it-auto">
+      <h3>You are hosting {{eventName}}!!</h3>
+      <div ng-show="startTime">
+        <p>Start Time: <time datetime="YYYY-MM-DDThh:mm">{{startTime}}</time></p>
+      </div>
+      <div ng-show="endTime">
+        <p>End Time: <time datetime="YYYY-MM-DDThh:mm">{{endTime}}</time></p>
+      </div>
+        <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>   
+    </center>
+    </div> 
     <div class="row card" ng-show="playlist.length === 0">
     <center class="center-it-auto">
       <h3>There are no songs currently in your playlist.</h3>
@@ -56,7 +68,18 @@
 <!-- Playlist View: If you are a guest -->
 <ion-content class="has-header has-footer has-subheader" ng-show="!hostStatus">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
-    <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
+<div class="row card">
+    <center class="center-it-auto">
+      <h3>You are invited to {{eventName}}!!</h3>
+      <div ng-show="startTime">
+        <p>Start Time: <time datetime="YYYY-MM-DDThh:mm">{{startTime}}</time></p>
+      </div>
+      <div ng-show="endTime">
+        <p>End Time: <time datetime="YYYY-MM-DDThh:mm">{{endTime}}</time></p>
+      </div>
+        <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>   
+    </center>
+    </div> 
     <div class="row card" ng-show="playlist.length === 0">    
     <center class="center-it-auto">
       <h3>There are no songs currently in your playlist.</h3>
@@ -130,7 +153,19 @@
 <!-- Playlist View: If you are the host -->
 <ion-content class="has-header has-footer has-subheader" ng-show="hostStatus">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
-  <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
+    <div class="row card">
+    <center class="center-it-auto">
+      <h3>You are hosting {{eventName}}!!</h3>
+      <div ng-show="startTime">
+        <div ng-show="startTime">
+        <p>Start Time: <time datetime="YYYY-MM-DDThh:mm">{{startTime}}</time></p>
+      </div>
+      <div ng-show="endTime">
+        <p>End Time: <time datetime="YYYY-MM-DDThh:mm">{{endTime}}</time></p>
+      </div>
+        <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>   
+    </center>
+    </div>     
     <div class="row card" ng-show="playlist.length === 0">
     <center class="center-it-auto">
       <h3>There are no songs currently in your playlist.</h3>
@@ -162,8 +197,18 @@
 <ion-content class="has-header has-footer has-subheader" ng-show="!hostStatus">  
 <!-- include the fb share button here -->
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
-    <span ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></span>
-    
+    <div class="row card">
+    <center class="center-it-auto">
+      <h3>You are hosting {{eventName}}!!</h3>
+      <div ng-show="startTime">
+        <p>Start Time: <time datetime="YYYY-MM-DDThh:mm">{{startTime}}</time></p>
+      </div>
+      <div ng-show="endTime">
+        <p>End Time: <time datetime="YYYY-MM-DDThh:mm">{{endTime}}</time></p>
+      </div>
+        <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>   
+    </center>
+    </div> 
     <div class="row card" ng-show="playlist.length === 0">    
     <center class="center-it-auto">
       <h3>There are no songs currently in your playlist.</h3>
