@@ -5,7 +5,6 @@ angular.module('Q.controllers', [
 'angularSoundManager',
 'ngSanitize'
 ])
-
 // THIS IS JUST A TEST
 .controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce, $http) {
 
@@ -13,6 +12,7 @@ angular.module('Q.controllers', [
  $rootScope.votes= [];
  $rootScope.spotify = false;
  $rootScope.customPlaylist;
+
  var roomUrl = queryStringValues['room'];
  if (roomUrl) {
    $http ({
@@ -21,11 +21,15 @@ angular.module('Q.controllers', [
    })
     .then(function (resp) {
       console.log(resp.data, "RESPONSE DATA");
+      console.log('FB id', FB.getUserID());
       // DATA IS RETURNED CORRECTLY BUT IT 
       // POPULATES THE WRONG VALUE
       // $rootScope.songs is for search
       $rootScope.spotify = resp.data.spotify;
       $rootScope.votes = resp.data.votes;
+      var userID = FB.getUserID();
+      $scope.hostStatus = resp.data.host === userID;
+      console.log('host?', $scope.hostStatus);
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
 
