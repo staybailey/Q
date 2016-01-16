@@ -6,14 +6,15 @@ angular.module('Q.controllers', [
 'ngSanitize'
 ])
 // THIS IS JUST A TEST
-.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce, $http) {
+.controller('playlistController', function($scope, $rootScope, $location, $window, Playlist, $sce, $http) {
 
  $rootScope.songs= [];
  $rootScope.votes= [];
  $rootScope.spotify = false;
  $rootScope.customPlaylist;
+ var roomUrl = queryStringValues['room'] || $rootScope.roomUrl;
+ console.log('roomUrl is....', roomUrl);
 
- var roomUrl = queryStringValues['room'];
  if (roomUrl) {
    $http ({
     method: 'GET',
@@ -21,7 +22,6 @@ angular.module('Q.controllers', [
    })
     .then(function (resp) {
       console.log(resp.data, "RESPONSE DATA");
-      console.log('FB id', FB.getUserID());
       // DATA IS RETURNED CORRECTLY BUT IT 
       // POPULATES THE WRONG VALUE
       // $rootScope.songs is for search
@@ -32,7 +32,7 @@ angular.module('Q.controllers', [
       console.log('host?', $scope.hostStatus);
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
-
+      $scope.dataReady = true;
     });
    // AND DO GET REQUEST FOR SONGS WITH ROOMURL
  } //window.socket.emit('newGuest');
@@ -42,7 +42,6 @@ angular.module('Q.controllers', [
  
  $scope.spotifyResponse = [];
  window.socket.on('voteUpdate', function(data){
-  console.log('vote changed! said client', data);
   $scope.$apply(function(){
     $rootScope.votes = data;
   });
@@ -64,7 +63,6 @@ angular.module('Q.controllers', [
             $scope.spotifyResponse[0].title = "please enter a search";
             $scope.spotifyResponse[0].artist = "YOU";
           } else {
-            console.log(resp);
             var spotifyResponseSongs = resp.data.tracks.items;          
             for (var i = 0; i < spotifyResponseSongs.length; i++) {
               $scope.spotifyResponse[i] = {};
@@ -91,9 +89,7 @@ angular.module('Q.controllers', [
         return;
       } else{
         return Playlist.searchSongs($scope.query).then(function(tracks){
-          console.log(tracks)
           for(var i = 0;i<tracks.length;i++){
-            console.log(tracks[i].artwork_url)
             var track = {
                               id: tracks[i].id,
                               title: tracks[i].title,
@@ -166,8 +162,7 @@ angular.module('Q.controllers', [
       link: currentUrl  
     });  
   }
-  $scope.spotifyExpand = function(status) {
-    console.log('here this', $('this'));    
+  $scope.spotifyExpand = function(status) {  
     // console.log('here actual', $('spotify-embed'));  
     if (status === 'enter') {    
       $('.spotify-embed-main').addClass('spotify-embed-active', 2000).removeClass('spotify-embed', 2000);
@@ -177,12 +172,10 @@ angular.module('Q.controllers', [
   }
 
   $scope.makeSpotifyPlaylist = function() {
-    console.log('nonow');
     Playlist.makeSpotifyPlaylist
   }
   
   $scope.spotifyTrackPlayer = function(spotifyUri) {
-    console.log(spotifyUri);
     $('.spotify-embed').empty();
     //$('.spotifyContainer').html('<iframe class="spotify-widget" src="https://embed.spotify.com/?uri=https://open.spotify.com/user/hlyford11/playlist/1HqZmMA5762aaCz8zhe4Ff&theme=black' + spotifyUri +'"" width="300" height="380" frameborder="0" allowtransparency="true"></iframe> ');
     $('.spotify-embed').html('<iframe src="https://embed.spotify.com/?uri='+ spotifyUri + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
@@ -192,7 +185,7 @@ angular.module('Q.controllers', [
   // console.log(Playlist.isHost());
 })
 
-.controller('landingPageController', function($scope, $http, $location, $state, Playlist){
+.controller('landingPageController', function($scope, $window, $http, $location, $state, $rootScope, Playlist){
   $scope.roomData = {};   
 
   $scope.createRoom = function(){
@@ -209,13 +202,13 @@ angular.module('Q.controllers', [
     })
     .then(function(res){
       console.log('new room created successfully!');
+      $rootScope.roomUrl = res.data;
       var url = '#/playlist?room=' + res.data;
       console.log('redirecting to the newly created room', url);
       // MAY NOT WORK BUT RIGHT TRACK
       Playlist.makeHost();
-      console.log(Playlist.isHost(), "I am the host");
       window.socket.emit('onJoin', res.data);
-      window.location = url;
+      $window.location.href = url;
 
     }, function(err){
       console.log('ERR! new room was not created');
