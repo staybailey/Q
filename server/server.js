@@ -49,13 +49,13 @@ io.on('connection', function (socket) {
   socket.on('onJoin', function (room) {
     socket.join(room);
     console.log("THE SOCKET ROOMS ARRAY IS\n", socket.rooms);
-    /*
+    console.log('ABOUT TO CALL ROOM . GET QUEUE');
     Room.getQueue(room, function (queue) {
-      console.log(queue);
-      socket.to(room).emit('getQueue', queue);
+      io.to(room).emit('getQueue', queue);
     });
-    */
+    
   });
+
 
   socket.on('addSong', function (newSong) {
     console.log("SOCKET ROOMS ON ADD SONG:", socket.rooms);
@@ -69,7 +69,7 @@ io.on('connection', function (socket) {
     console.log("ADDING SONG TO THE ROOM:", room);
     if (room) {
       Room.addSong(newSong, room, function() {
-        socket.emit('newSong', newSong);
+        // socket.emit('newSong', newSong);
         socket.to(room).broadcast.emit('newSong', newSong);
       });
     }
@@ -84,7 +84,7 @@ io.on('connection', function (socket) {
     }
     if (room) {
       Room.deleteSong(target.song, room, function() {
-        socket.emit('deleteSong', target);
+        // socket.emit('deleteSong', target);
         socket.to(room).broadcast.emit('deleteSong', target);
       });
     }

@@ -4871,12 +4871,18 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                 //     });
                 // });
                 var socket = angularPlayer.socket();
+                var initQ = false;
+                var count = 0;
 
                 socket.on('getQueue', function (queue) {
-                    console.log('queue from server', queue)
-                    queue.forEach(function(song) {
-                        angularPlayer.addToPlaylist(song);
-                    });
+                    console.log('getQueue called for the', count, 'time');
+                    if (!initQ) {
+                      queue.forEach(function(song) {
+                        angularPlayer.addTrack(song);
+                        console.log('adding song', song);
+                      });
+                      initQ = true;
+                    }                         
                 }); 
 
                 socket.on('deleteSong', function (targetObj) {
@@ -4888,8 +4894,10 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                 }); 
 
                 socket.on('newSong', function (newSong) {
-                    console.log('newSong from server', newSong)
-                    angularPlayer.addTrack(newSong);
+                    if (initQ) {
+                      console.log('newSong from server', newSong)
+                      angularPlayer.addTrack(newSong);
+                    }                    
                 }); 
                 
                 socket.on('currentlyPlaying', function(currentTrack) {

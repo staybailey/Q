@@ -5,7 +5,10 @@ angular.module('Q.controllers', [
 'angularSoundManager',
 'ngSanitize'
 ])
-.controller('playlistController', function($scope, $http, $rootScope, $location, Playlist, $sce) {
+
+// THIS IS JUST A TEST
+.controller('playlistController', function($scope, $rootScope, $location, Playlist, $sce, $http) {
+
  $rootScope.songs= [];
  $rootScope.votes= [];
  $rootScope.spotify = false;
@@ -25,7 +28,7 @@ angular.module('Q.controllers', [
       $rootScope.votes = resp.data.votes;
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
-      window.socket.emit('getQueue')
+
     });
    // AND DO GET REQUEST FOR SONGS WITH ROOMURL
  } //window.socket.emit('newGuest');
@@ -235,3 +238,4 @@ angular.module('Q.controllers', [
   $scope.createRoomPassword;
   */
 })
+
