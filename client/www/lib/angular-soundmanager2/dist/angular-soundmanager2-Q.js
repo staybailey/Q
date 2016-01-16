@@ -4444,7 +4444,7 @@ ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
             volume = 90,
             trackProgress = 0,
             playlist = [],
-            socket = soundManager.socket();
+            socket = window.socket;
 
         
         
@@ -4668,9 +4668,19 @@ ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
                 
                 //remove from playlist
                 
+                console.log('preparing to remove song', song, 'at', index);
                 //once all done then broadcast
                 socket.emit('deleteSong', {song: song, index: index});
                 
+            },
+            reorderPlaylist: function (songIndex1, songIndex2) {
+              var oldPlaylist = this.getPlaylist();
+              console.log('old playlist', oldPlaylist)
+              var temp = oldPlaylist[songIndex1];
+              playlist[songIndex1] = playlist[songIndex2];  
+              playlist[songIndex2] = temp;
+              $rootScope.$broadcast('player:playlist', playlist);
+              console.log('the new playlist is', playlist);
             },
             initPlayTrack: function(trackId, isResume) {
                 if(isResume !== true) {
@@ -4866,7 +4876,7 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                 //         console.log(currentState);
                 //     });
                 // });
-                var socket = angularPlayer.socket();
+                var socket = window.socket;
                 var initQ = false;
                 var count = 0;
 
@@ -4882,12 +4892,14 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                     }                         
                 }); 
 
-                socket.on('deleteSong', function (targetObj) {
+                socket.on('songDeleted', function (targetObj, length) {
                     console.log(targetObj);
-                    soundManager.destroySound(targetObj.song);
-                    scope.$apply(function () {
+                    if (angularPlayer.getPlaylist().length === length) {
+                      soundManager.destroySound(targetObj.song);
+                      scope.$apply(function () {
                         scope.playlist.splice(targetObj.index, 1);
-                    });
+                      });
+                    }
                 }); 
 
                 socket.on('newSong', function (newSong) {
@@ -4895,7 +4907,12 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                       console.log('newSong from server', newSong)
                       angularPlayer.addTrack(newSong);
                     }                    
-                }); 
+                });
+
+                socket.on('voteOrderUpdate', function (orderChange) { // order change is a tuple with indices that swaped
+                  console.log('vote order update:', orderChange);
+                  angularPlayer.reorderPlaylist(orderChange[0], orderChange[1]);
+                });
                 
                 socket.on('currentlyPlaying', function(currentTrack) {
                     scope.$apply(function() {
@@ -4987,7 +5004,7 @@ ngSoundManager.directive('musicPlayer', ['angularPlayer', '$log',
 ]);
 
 ngSoundManager.factory('socketFactory', ['angularPlayer', '$log', function (angularPlayer, $log) {
-    soundManager.socket().on('getQueue', function(queue){
+    window.socket.on('getQueue', function(queue){
         $log.log(queue);
         for(var i = 0; i < queue.length; i++) {
             addTrack(queue[i]);

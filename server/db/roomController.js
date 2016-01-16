@@ -68,14 +68,26 @@ module.exports = {
   updateVotes: function(data, room, callback) {
     console.log("UPDATING VOTES");
     Room.findOne({ 'room' : room }, function (err, targetRoom) {
+      var orderChange;
       if (err) {
         console.log('could not find the room whose votes data was to be updated');
-      } else {
-        targetRoom.votes[data.index] = data.count;
+      } else {        
+        if (data.index > 0 && targetRoom.votes[data.index - 1] < data.count) { // vote count at target higher than prev song
+          targetRoom.votes[data.index] = targetRoom.votes[data.index - 1];
+          targetRoom.votes[data.index - 1] = data.count;
+          orderChange = [data.index, data.index - 1];
+        } else if (data.index < targetRoom.votes.length - 1 && targetRoom.votes[data.index + 1] > data.count) {
+          targetRoom.votes[data.index] = targetRoom.votes[data.index + 1];
+          targetRoom.votes[data.index + 1] = data.count;
+          orderChange = [data.index, data.index + 1];          
+        } else {
+          targetRoom.votes[data.index] = data.count;
+        }
         targetRoom.markModified('votes');
         targetRoom.save();
         console.log('the votes array..', targetRoom.votes);
-        callback(targetRoom.votes);
+        console.log('THE ORDER CHANGED?', orderChange);
+        callback(targetRoom.votes, orderChange);
       }
     });
   },
@@ -113,6 +125,7 @@ module.exports = {
 
   deleteSong: function(target, room, callback) {
     Room.findOne({room: room}, function(err, result) {
+      var length = result.queue.length
       console.log(target);
       var deleteLocations = [];
       result.queue.forEach(function(song, index) {
@@ -125,7 +138,7 @@ module.exports = {
         result.queue.splice(deleteLocation, 1);
         result.save(function(err) {
           console.error(err);
-          callback();
+          callback(length);
         });
       });
     });

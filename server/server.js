@@ -45,9 +45,9 @@ io.on('connection', function (socket) {
   socket.on('deleteSong', function (target) {
     var room = utils.getSocketRoom(socket.rooms);
     if (room) {
-      Room.deleteSong(target.song, room, function() {
+      Room.deleteSong(target.song, room, function(length) {
         // socket.emit('deleteSong', target);
-        socket.to(room).broadcast.emit('deleteSong', target);
+        io.to(room).emit('songDeleted', target, length);
       });
     }
   });
@@ -55,9 +55,12 @@ io.on('connection', function (socket) {
   socket.on('voteChange', function (data) {
     var room = utils.getSocketRoom(socket.rooms);
     if (room) {
-      Room.updateVotes(data, room, function(voteCounts){
+      Room.updateVotes(data, room, function(voteCounts, orderChange){
         // socket.emit('voteUpdate', voteCounts)
-        socket.to(room).broadcast.emit('voteUpdate', voteCounts)
+        if (orderChange) {
+          io.to(room).emit('voteOrderUpdate', orderChange);
+        }
+        socket.to(room).broadcast.emit('voteUpdate', voteCounts);
       });
     }
   });
@@ -67,22 +70,22 @@ io.on('connection', function (socket) {
   });
 
   socket.on('currentlyPlaying', function (data) {
-    socket.emit('currentlyPlaying', data);
+    //socket.emit('currentlyPlaying', data);
     socket.broadcast.emit('currentlyPlaying', data);
   });
 
   socket.on('currentTrackPosition', function (data) {
-    socket.emit('currentTrackPosition', data);
+    //socket.emit('currentTrackPosition', data);
     socket.broadcast.emit('currentTrackPosition', data);
   });
 
   socket.on('currentTrackDuration', function (data) {
-    socket.emit('currentTrackDuration', data);
+    //socket.emit('currentTrackDuration', data);
     socket.broadcast.emit('currentTrackDuration', data);
   });
 
   socket.on('isPlaying', function (data) {
-    socket.emit('isPlaying', data);
+    //socket.emit('isPlaying', data);
     socket.broadcast.emit('isPlaying', data);
   });
 });

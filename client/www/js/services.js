@@ -101,9 +101,10 @@ angular.module('Q.services', [
     makeSpotifyPlaylist: makeSpotifyPlaylist
   }
 })
-
+/*
 .factory('socket', function ($rootScope) {
-  var socket = io.connect();
+  // var socket = io.connect();
+  var socket = window.socket
   return {
     on: function (eventName, callback) {
       socket.on(eventName, function () {  
@@ -125,3 +126,4 @@ angular.module('Q.services', [
     }
   };
 });
+*/
