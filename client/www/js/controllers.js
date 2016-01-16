@@ -32,6 +32,7 @@ angular.module('Q.controllers', [
       console.log('host?', $scope.hostStatus);
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
+
     });
    // AND DO GET REQUEST FOR SONGS WITH ROOMURL
  } //window.socket.emit('newGuest');
