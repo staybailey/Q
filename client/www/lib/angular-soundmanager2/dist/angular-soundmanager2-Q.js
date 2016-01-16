@@ -4874,6 +4874,7 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                 var initQ = false;
                 var count = 0;
 
+                // getQueue intializes the player on page open, but won't do it more than once
                 socket.on('getQueue', function (queue) {
                     console.log('getQueue called for the', count, 'time');
                     if (!initQ) {
