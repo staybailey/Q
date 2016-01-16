@@ -1,25 +1,28 @@
 var mongoose = require('mongoose');
 var Room = require('./roomModel');
 var io = require('socket.io');
+var utils = require('../utils.js');
 
+// function creates a "unique" random 12 digit string of letters for the room name
 var randomString = function (number) {
   var output = '';
   for (var i = 0; i < number; i++) {
-    output += String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+    output += String.fromCharCode(Math.floor(Math.random() * 26) + 97); // Random lower case letter
   }
   return output;
 }
 
-// There could be occassional roomname overlap but it one in 26^12
+// There could be occassional roomname overlap but it is one in 26^12
+// This function adds the signature 
 var createRoom = function () {
-  return 'jhbb' + randomString(12);
+  return utils.getRoomSignature() + randomString(12);
 }
 
 module.exports = {
+
+  
   addRoom: function(req, res, next) {
-    console.log("ADDING ROOM");
     var room = createRoom();
-    console.log(room);
     var newRoom = new Room({
       hash: 'hash',  
       room: room, 
@@ -27,7 +30,7 @@ module.exports = {
       eventName: req.body.eventName,
       startTime: req.body.startTime,
       endTime: req.body.endTime,
-      spotify: req.body.spotify || true, // Default to spotify
+      spotify: req.body.spotify || false, // Default to soundcloud
       queue: [],
       votes: []
     });
@@ -40,7 +43,7 @@ module.exports = {
       }
     });
   },
- 
+  
   initPlaylist: function(req, res, next) {
     console.log("Initializing Playlist");
     Room.findOne({room: req.params.id}, function (err, result) {
@@ -51,7 +54,6 @@ module.exports = {
         res.end();
       } else if (result) {
         output = {};
-        output.queue = result.queue;
         output.votes = result.votes;
         output.spotify = result.spotify;
         output.host = result.host;
@@ -82,22 +84,6 @@ module.exports = {
     });
   },
   
-  /*
-  saveQueue: function(updatedQueue, room, callback) {
-    updatedQueue = updatedQueue.map(function(song) {
-      delete song['$$hashKey'];
-      return song;
-    });
-    Room.findOne({}, function(err, result) {
-      console.log(updatedQueue)
-      result.queue = updatedQueue;
-      result.save(function(err) {
-        console.error(err);
-        callback();
-      });
-    });
-  },
-  */
 
   addSong: function(data, room, callback) {
     console.log("ADDING A SONG TO ROOM", room);
