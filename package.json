@@ -32,6 +32,7 @@
     "gulp": "^3.9.0",
     "gulp-jshint": "^2.0.0",
     "gulp-nodemon": "^2.0.6",
+    "gulp-notify": "^2.2.0",
     "gulp-uglify": "^1.5.1",
     "jshint": "^2.9.1",
     "karma": "^0.13.19",
@@ -41,5 +42,8 @@
     "socket.io": "^1.4.0",
     "twilio": "^2.8.0",
     "uglify": "^0.1.5"
+  },
+  "devDependencies": {
+    "jshint-stylish": "^2.1.0"
   }
 }
