@@ -10,7 +10,7 @@ angular.module('Q.controllers', [
 
  $rootScope.songs= [];
  $rootScope.votes= [];
- // $rootScope.spotify = false;
+ $rootScope.spotify = false;
  $rootScope.customPlaylist;
 
  var roomUrl = queryStringValues['room'];

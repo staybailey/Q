@@ -27,6 +27,7 @@
 <!-- Playlist View: If you are the host -->
 <ion-content class="has-header has-footer has-subheader" ng-show="hostStatus">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
+  <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
     <div class="row card" ng-show="playlist.length === 0">
     <center class="center-it-auto">
       <h3>There are no songs currently in your playlist.</h3>
@@ -129,6 +130,7 @@
 <!-- Playlist View: If you are the host -->
 <ion-content class="has-header has-footer has-subheader" ng-show="hostStatus">  
   <div style="height:70%; margin-right:auto; margin-left:auto; width:80%">
+  <div ng-bind-html="fbShare" ng-click='fbShareSend()' class="fbShareButton"></div>    
     <div class="row card" ng-show="playlist.length === 0">
     <center class="center-it-auto">
       <h3>There are no songs currently in your playlist.</h3>
@@ -141,6 +143,9 @@
           <div play-from-playlist="song" ng-class="currentPlaying.id === song.id ? 'button button-royal button-block playlistItem' : 'button button-outline button-stable button-block playlistItem spotifyPlaylistItem'">
           {{ song.title }} by {{song.artist}}
           </div>
+          <a href="" ng-click="upVote($index)"><img src="../img/plus.gif" class="plus-button" /></a>
+          <div class="vote-count">{{votes[$index]}}</div>
+          <a href="" ng-click="downVote($index)"><img src="../img/minus.gif" class="minus-button"/></a>
         </div>
         <div ng-show="hostStatus">
           <a remove-from-playlist="song" data-index="{{$index}}" ng-class="currentPlaying.id === song.id ? 'button button-clear button-royal button-block' : 'button button-clear button-stable button-block'">
@@ -171,6 +176,9 @@
           <div ng-click="spotifyTrackPlayer(song.uri)" data='{{ song.uri }}' ng-class="currentPlaying.id === song.id ? 'button button-positive button-block playlistItem spotifyPlaylistItem' : 'button button-outline button-stable button-block playlistItem spotifyPlaylistItem'">
           {{ song.title }} by {{song.artist}}
           </div>
+          <a href="" ng-click="upVote($index)"><img src="../img/plus.gif" class="plus-button" /></a>
+          <div class="vote-count">{{votes[$index]}}</div>
+          <a href="" ng-click="downVote($index)"><img src="../img/minus.gif" class="minus-button"/></a>
         </div>
       </div>
     </ul>
