@@ -204,3 +204,10 @@ img.small {
   -webkit-appearance:radio;
   margin-left: 10px; /* Safari and Chrome */
 }
+
+#eventInfo {
+  width: 300px;
+  height: 100px;
+  float: bottom;
+  margin-bottom: 500px;
+}
