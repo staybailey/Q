@@ -56,6 +56,12 @@ io.on('connection', function (socket) {
     
   });
 
+  socket.on('test', function (room) {
+    Room.getQueue(room, function (queue) {
+      socket.to(room).emit('getQueue', queue);
+      socket.to(room).broadcast.emit('getQueue', queue);
+    });
+  });
 
   socket.on('addSong', function (newSong) {
     console.log("SOCKET ROOMS ON ADD SONG:", socket.rooms);
