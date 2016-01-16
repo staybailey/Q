@@ -4447,10 +4447,6 @@ ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
             socket = soundManager.socket();
 
         
-        // socket.on('deleteSong', function(queue) {
-        //     playlist = queue;
-        //     $rootScope.$broadcast('player:playlist', playlist);
-        // });
         
         return {
             /**

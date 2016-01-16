@@ -21,38 +21,23 @@ angular.module('Q.controllers', [
     url: '/initPlaylist/' + roomUrl
    })
     .then(function (resp) {
-      var formatDate = function(str){
-          var month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-          str = str.replace('T', "-");
-          str = str.replace('.', "-");
-          str = str.split('-');
-          console.log(str);
-          var result = '';
-          result += str[0]+' ';
-          result += month_names[+str[1] - 1] + ' ';
-          result += str[2] + ' ';
-          result += str[3].slice(0, 5);
-          return result;
-      };
       console.log(resp.data, "RESPONSE DATA");
       // DATA IS RETURNED CORRECTLY BUT IT 
       // POPULATES THE WRONG VALUE
       // $rootScope.songs is for search
-        $rootScope.spotify = resp.data.spotify;
-        $rootScope.votes = resp.data.votes;
-        $scope.eventName = resp.data.eventName;
-        $scope.startTime = formatDate(resp.data.startTime);
-        $scope.endTime = formatDate(resp.data.endTime);
-        var userID = FB.getUserID();
-        $scope.hostStatus = resp.data.host === userID;
-        console.log('host?', $scope.hostStatus);
+      $rootScope.spotify = resp.data.spotify;
+      $rootScope.votes = resp.data.votes;
+      var userID = FB.getUserID();
+      $scope.hostStatus = resp.data.host === userID;
+      console.log('host?', $scope.hostStatus);
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
+      $scope.dataReady = true;
     });
    // AND DO GET REQUEST FOR SONGS WITH ROOMURL
  } //window.socket.emit('newGuest');
   // include template for fb share button
- $scope.fbShare = $sce.trustAsHtml('<button class="btn btn-success">Invite Friends on Facebook</button> ');
+ $scope.fbShare = $sce.trustAsHtml('<button class="btn btn-success">Share playlist with Facebook friends</button> ');
  $scope.SpotifyPlaylistMarkup = $sce.trustAsHtml('<button class="btn btn-danger spotify-login">Make Spotify Playlist</button> ');
  
  $scope.spotifyResponse = [];
@@ -200,8 +185,11 @@ angular.module('Q.controllers', [
   // console.log(Playlist.isHost());
 })
 
+<<<<<<< HEAD
 .controller('landingPageController', function($scope, $window, $http, $location, $state, $rootScope, Playlist){
-
+=======
+.controller('landingPageController', function($scope, $state, $http, $location, $state, Playlist){
+>>>>>>> sdaf
   $scope.roomData = {};   
 
   $scope.createRoom = function(){
@@ -218,15 +206,22 @@ angular.module('Q.controllers', [
     })
     .then(function(res){
       console.log('new room created successfully!');
+<<<<<<< HEAD
       $rootScope.roomUrl = res.data;
       var url = '#/playlist?room=' + res.data;
+=======
+      var url = '/#/playlist?room=' + res.data;
+>>>>>>> sdaf
       console.log('redirecting to the newly created room', url);
       // MAY NOT WORK BUT RIGHT TRACK
       Playlist.makeHost();
       window.socket.emit('onJoin', res.data);
-
+<<<<<<< HEAD
       $window.location.href = url;
+=======
+      console.log('testing');
 
+>>>>>>> sdaf
 
     }, function(err){
       console.log('ERR! new room was not created');
