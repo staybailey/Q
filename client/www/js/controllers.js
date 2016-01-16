@@ -163,7 +163,7 @@ angular.module('Q.controllers', [
     FB.ui({
       method: 'send',
       // once the app is live we can set it to go to window.location.href
-      link: 'http://google.com'    
+      link: currentUrl  
     });  
   }
   $scope.spotifyExpand = function(status) {
