@@ -4,8 +4,9 @@ var gulp = require('gulp');
 var sync = require('browser-sync');
 var nodemon = require('gulp-nodemon');
 var KarmaServer = require('karma').Server;
-jshint = require('gulp-jshint');
-uglify = require('gulp-uglify');
+var jshint = require('gulp-jshint');
+var uglify = require('gulp-uglify');
+var notify = require('gulp-notify');
 
 // the paths to our app files
 var paths = {
@@ -19,7 +20,7 @@ var paths = {
 // any changes made to your
 // client side code will automagically refresh your page
 // with the new changes
-gulp.task('start', ['serve'], function () {
+gulp.task('start', ['serve'], function () {  
   sync({
     notify: true,
     // address for server,
@@ -27,6 +28,18 @@ gulp.task('start', ['serve'], function () {
     files: paths.scripts.concat(paths.html, paths.styles),
     proxy: 'localhost:3000'
   });
+});
+
+gulp.task('jshint', function() {  
+  
+  // gulp.src('client/wwww/js/*.js')
+    // .pipe(jshint())    
+    // .pipe(jshint.reporter('jshint-stylish'))
+    // .pipe(jshint.reporter('fail'));
+  return gulp.src('client/wwww/js/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'))    
+    .pipe(notify({ message: 'Scripts task complete' }));
 });
 
 // Run our karma tests
