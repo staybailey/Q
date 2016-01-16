@@ -7,7 +7,7 @@ var twilio = require('./twilio.js')
 module.exports = function (app, express) {
   app.post('/newUser', userSigninController.addUser);
   app.post('/newRoom', roomController.addRoom);
-  app.get('/testdb', roomController.addRoom); // remove later
+  // app.get('/testdb', roomController.addRoom); // remove later
   app.get('/initPlaylist/:id', roomController.initPlaylist)
   app.get('/spotifyLogin', function(req, res, next) {
     console.log(req.body);
