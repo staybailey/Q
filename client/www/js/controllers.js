@@ -25,11 +25,8 @@ angular.module('Q.controllers', [
       $rootScope.spotify = resp.data.spotify;
       $rootScope.votes = resp.data.votes;
       var userID = FB.getUserID();
-      $scope.isHost = resp.data.host === userID;
-      console.log('host comp', resp.data.host, userID);
-
-      console.log('is host?', $rootScope.isHost)
- 
+      $scope.hostStatus = resp.data.host === userID;
+      console.log('host?', $scope.hostStatus);
       //$rootScope.songs = resp.data.songs;
       window.socket.emit('onJoin', roomUrl);
       window.socket.emit('getQueue');
